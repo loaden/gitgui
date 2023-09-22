@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'native.dart';
 
 void main() {
   runApp(const MyApp());
@@ -108,6 +109,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
+            FutureBuilder<List<dynamic>>(
+                future: Future.wait([api.helloFromRust(count: 3)]),
+                builder: (context, snap) {
+                  final data = snap.data;
+                  if (data == null) {
+                    return const Text("Loading");
+                  }
+
+                  return Text('${data[0]}');
+                }),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
