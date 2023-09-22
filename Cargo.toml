@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "native",
+    "crates/core",
 ]
 
 [profile.release]
