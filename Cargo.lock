@@ -378,14 +378,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "delegate"
-version = "0.8.0"
+name = "delegate-attr"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "082a24a9967533dc5d743c602157637116fc1b52806d694a5a45e6f32567fcdd"
+checksum = "51aac4c99b2e6775164b412ea33ae8441b2fde2dbf05a20bc0052a63d08c475b"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.37",
 ]
 
 [[package]]
@@ -492,9 +492,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge_codegen"
-version = "1.82.0"
+version = "1.82.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d30c6eb9fa9ddfd6b36f208b4661397924864629135bad1693f671274363243"
+checksum = "534339b8eb2c6775ab86fe62ba3f1558514ae4b99621478070d4ca2552151634"
 dependencies = [
  "anyhow",
  "atty",
@@ -503,7 +503,7 @@ dependencies = [
  "chrono",
  "clap 4.4.4",
  "convert_case",
- "delegate",
+ "delegate-attr",
  "enum-iterator",
  "enum_dispatch",
  "fern",
@@ -970,9 +970,9 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "semver"
-version = "1.0.18"
+version = "1.0.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b0293b4b29daaf487284529cc2f5675b8e57c61f70167ba415a463651fd6a918"
+checksum = "ad977052201c6de01a8ef2aa3378c4bd23217a056337d1d6da40468d267a4fb0"
 dependencies = [
  "serde",
 ]
