@@ -1,3 +1,4 @@
+use std::env;
 use std::io::Read;
 use std::path::PathBuf;
 use std::process::Command;
@@ -39,6 +40,12 @@ fn main() {
         ..Default::default()
     };
 
+    // set CPATH: export CPATH="$(clang -v 2>&1 | grep "Selected GCC installation" | rev | cut -d' ' -f1 | rev)/include"
+    // https://cjycode.com/flutter_rust_bridge/integrate/deps.html
+    if cfg!(target_os = "linux") {
+        env::set_var("CPATH", c_path());
+    }
+
     // get opts from raw opts
     let all_configs = config_parse(raw_opts);
     // generation of rust api for ffi
@@ -67,4 +74,25 @@ fn llvm_path() -> String {
     } else {
         "".to_string()
     }
+}
+
+fn c_path() -> String {
+    let mut str = String::new();
+    if let Ok(mut child) = Command::new("clang")
+        .arg("-v")
+        .stderr(Stdio::piped())
+        .spawn()
+    {
+        let mut stderr = child.stderr.take().unwrap();
+        stderr.read_to_string(&mut str).unwrap();
+        let v: Vec<_> = str.split("Selected GCC installation:").collect();
+        for line in v[1].lines() {
+            let mut path = PathBuf::from(line.trim());
+            path.push("include");
+            if let Some(s) = path.to_str() {
+                return s.to_string();
+            }
+        }
+    }
+    str
 }
