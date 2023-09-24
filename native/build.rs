@@ -1,3 +1,8 @@
+use std::io::Read;
+use std::path::PathBuf;
+use std::process::Command;
+use std::process::Stdio;
+
 use lib_flutter_rust_bridge_codegen::{
     config_parse, frb_codegen, get_symbols_if_no_duplicates, RawOpts,
 };
@@ -43,7 +48,22 @@ fn main() {
 
 fn llvm_path() -> String {
     if cfg!(target_os = "windows") {
-        String::from("D:/Dev/LLVM")
+        let mut str = String::new();
+        if let Ok(mut child) = Command::new("clang")
+            .arg("-v")
+            .stderr(Stdio::piped())
+            .spawn()
+        {
+            let mut stderr = child.stderr.take().unwrap();
+            stderr.read_to_string(&mut str).unwrap();
+            let v: Vec<_> = str.split("InstalledDir:").collect();
+            let mut path = PathBuf::from(v[1].trim());
+            path.pop();
+            if let Some(s) = path.to_str() {
+                str = s.into();
+            }
+        }
+        str
     } else {
         "".to_string()
     }
