@@ -57,6 +57,9 @@ add_subdirectory("runner")
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
+# Include the CMake build file of our Rust project here.
+include(./rust.cmake)
+
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can
