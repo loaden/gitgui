@@ -1,9 +1,4 @@
-
-####### Expanded from @PACKAGE_INIT@ by configure_package_config_file() #######
-####### Any changes to this file will be overwritten by the next CMake run ####
-####### The input file was CorrosionConfig.cmake.in                            ########
-
-get_filename_component(PACKAGE_PREFIX_DIR "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
+get_filename_component(PACKAGE_PREFIX_DIR "${CMAKE_CURRENT_LIST_DIR}" ABSOLUTE)
 
 macro(set_and_check _var _file)
   set(${_var} "${_file}")
@@ -22,21 +17,14 @@ macro(check_required_components _NAME)
   endforeach()
 endmacro()
 
-####################################################################################
 
 if (Corrosion_FOUND)
     return()
 endif()
 
-list(APPEND CMAKE_MODULE_PATH "C:/Program Files (x86)/Corrosion/share/cmake")
-
 set(CORROSION_NATIVE_TOOLING_INSTALLED OFF)
 if(CORROSION_NATIVE_TOOLING_INSTALLED AND NOT TARGET Corrosion::Generator)
     add_executable(Corrosion::Generator IMPORTED GLOBAL)
-
-    set_property(
-        TARGET Corrosion::Generator
-        PROPERTY IMPORTED_LOCATION "C:/Program Files (x86)/Corrosion/libexec/corrosion-generator")
 endif()
 
 include(Corrosion)

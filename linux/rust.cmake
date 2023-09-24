@@ -2,7 +2,7 @@
 # many dependencies we would need to install Corrosion on the system.
 # See instructions on https://github.com/corrosion-rs/corrosion#cmake-install
 # Once done, uncomment this line:
-set(Corrosion_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake/lib/cmake/Corrosion)
+set(Corrosion_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Corrosion REQUIRED)
 
