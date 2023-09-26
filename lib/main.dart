@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const Home());
+void main() => runApp(const MaterialApp(home: Home()));
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -9,7 +9,6 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Text(
       'Hello World!',
-      textDirection: TextDirection.ltr,
     );
   }
 }
