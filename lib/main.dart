@@ -6,6 +6,9 @@ void main() {
     MaterialApp(
       theme: ThemeData.dark(),
       home: const Home(),
+      routes: {
+        "about": (context) => const About(),
+      },
     ),
   );
 }
@@ -27,12 +30,7 @@ class Home extends StatelessWidget {
   }
 
   void _onBtn1(bool b, BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return const About();
-      }),
-    );
+    Navigator.of(context).pushNamed('about');
   }
 
   void _onBtn2(bool b) {
