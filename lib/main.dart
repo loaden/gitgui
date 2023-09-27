@@ -18,6 +18,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(title: const Text('Hi')),
       body: ElevatedButton(
         onPressed: _add,
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
         child: const Icon(Icons.add),
       ),
     );
