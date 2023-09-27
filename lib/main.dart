@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'about.dart';
 
 void main() {
   runApp(
@@ -18,19 +19,20 @@ class Home extends StatelessWidget {
       appBar: AppBar(title: const Text('Hi')),
       body: Row(
         children: [
-          Button(
-            onPressed: _onBtn1,
-          ),
-          Button(
-            onPressed: _onBtn2,
-          ),
+          Button(onPressed: (bool b) => _onBtn1(b, context)),
+          Button(onPressed: _onBtn2),
         ],
       ),
     );
   }
 
-  void _onBtn1(bool b) {
-    print('1 $b');
+  void _onBtn1(bool b, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return const About();
+      }),
+    );
   }
 
   void _onBtn2(bool b) {
