@@ -16,9 +16,13 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hi')),
-      body: const Text(
-        'Hello World!',
+      body: ElevatedButton(
+        onPressed: _add,
+        child: const Icon(Icons.add),
       ),
     );
   }
+
+  // ignore: avoid_print
+  void _add() => print('hello');
 }
