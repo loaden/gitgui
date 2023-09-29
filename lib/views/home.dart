@@ -12,7 +12,10 @@ class Home extends StatelessWidget {
       body: Row(
         children: [
           Button(onPressed: (bool b) => _onBtn(b, context)),
-          Button(onPressed: (b) => Navigator.of(context).pushNamed(route.aboutPage)),
+          const SizedBox(width: 10),
+          Button(
+              onPressed: (b) =>
+                  Navigator.of(context).pushNamed(route.aboutPage)),
         ],
       ),
     );
