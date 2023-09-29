@@ -11,18 +11,14 @@ class Home extends StatelessWidget {
       appBar: AppBar(title: const Text('Hi')),
       body: Row(
         children: [
-          Button(onPressed: (bool b) => _onBtn1(b, context)),
-          Button(onPressed: _onBtn2),
+          Button(onPressed: (bool b) => _onBtn(b, context)),
+          Button(onPressed: (b) => Navigator.of(context).pushNamed(route.aboutPage)),
         ],
       ),
     );
   }
 
-  void _onBtn1(bool b, BuildContext context) {
-    Navigator.of(context).pushNamed(route.aboutPage);
-  }
-
-  void _onBtn2(bool b) {
-    print('2 $b');
+  void _onBtn(bool b, BuildContext context) {
+    Navigator.of(context).pushNamed(route.configPage);
   }
 }

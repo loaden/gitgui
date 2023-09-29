@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gitgui/route/route.dart' as route;
 
 class About extends StatelessWidget {
   const About({super.key});
@@ -10,7 +9,7 @@ class About extends StatelessWidget {
       appBar: AppBar(title: const Text('About')),
       body: ElevatedButton(
         child: const Text('Back to home'),
-        onPressed: () => Navigator.of(context).pushNamed(route.homePage),
+        onPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
