@@ -36,11 +36,16 @@ fn wire_times_from_rust_impl(
         move || {
             let api_left = left.wire2api();
             let api_right = right.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(times_from_rust(api_left, api_right))
+            move |task_callback| {
+                Result::<_, ()>::Ok(times_from_rust(api_left, api_right))
+            }
         },
     )
 }
-fn wire_hello_from_rust_impl(port_: MessagePort, count: impl Wire2Api<usize> + UnwindSafe) {
+fn wire_hello_from_rust_impl(
+    port_: MessagePort,
+    count: impl Wire2Api<usize> + UnwindSafe,
+) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
         WrapInfo {
             debug_name: "hello_from_rust",
@@ -94,7 +99,11 @@ mod io {
     // Section: wire functions
 
     #[no_mangle]
-    pub extern "C" fn wire_times_from_rust(port_: i64, left: usize, right: usize) {
+    pub extern "C" fn wire_times_from_rust(
+        port_: i64,
+        left: usize,
+        right: usize,
+    ) {
         wire_times_from_rust_impl(port_, left, right)
     }
 

@@ -1,5 +1,5 @@
-mod bridge_api;
 mod api;
+mod bridge_api;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
