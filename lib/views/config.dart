@@ -8,9 +8,10 @@ class Config extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           Navigator.of(context).pop();
-          Navigator.of(context).pushNamed(route.aboutPage);
+          var r = await Navigator.of(context).pushNamed(route.aboutPage);
+          print(r);
         },
         child: const Text("Goto About page"),
       ),

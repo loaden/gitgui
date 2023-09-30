@@ -13,7 +13,8 @@ const String configPage = 'config';
 Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
     case aboutPage:
-      return MaterialPageRoute(builder: (context) => const About());
+      return MaterialPageRoute(
+          builder: (context) => const About(name: 'Lucky'));
     case homePage:
       return MaterialPageRoute(builder: (context) => const Home());
     case configPage:

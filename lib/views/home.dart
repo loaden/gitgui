@@ -13,9 +13,10 @@ class Home extends StatelessWidget {
         children: [
           Button(onPressed: (bool b) => _onBtn(b, context)),
           const SizedBox(width: 10),
-          Button(
-              onPressed: (b) =>
-                  Navigator.of(context).pushNamed(route.aboutPage)),
+          Button(onPressed: (b) async {
+            var r = await Navigator.of(context).pushNamed(route.aboutPage);
+            print(r);
+          }),
         ],
       ),
     );
