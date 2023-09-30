@@ -6,14 +6,17 @@ class Config extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () async {
-          Navigator.of(context).pop();
-          var r = await Navigator.of(context).pushNamed(route.aboutPage);
-          print(r);
-        },
-        child: const Text("Goto About page"),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Config Page')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            Navigator.of(context).pop();
+            var r = await Navigator.of(context).pushNamed(route.aboutPage);
+            print(r);
+          },
+          child: const Text("Goto About page"),
+        ),
       ),
     );
   }

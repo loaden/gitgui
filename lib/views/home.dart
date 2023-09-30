@@ -9,15 +9,18 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hi')),
-      body: Row(
-        children: [
-          Button(onPressed: (bool b) => _onBtn(b, context)),
-          const SizedBox(width: 10),
-          Button(onPressed: (b) async {
-            var r = await Navigator.of(context).pushNamed(route.aboutPage);
-            print(r);
-          }),
-        ],
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Button(onPressed: (bool b) => _onBtn(b, context)),
+            const SizedBox(width: 10),
+            Button(onPressed: (b) async {
+              var r = await Navigator.of(context).pushNamed(route.aboutPage);
+              print(r);
+            }),
+          ],
+        ),
       ),
     );
   }

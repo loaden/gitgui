@@ -8,9 +8,11 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('About $name')),
-      body: ElevatedButton(
-        child: const Text('Back to home'),
-        onPressed: () => Navigator.of(context).pop('hi'),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('Back to home'),
+          onPressed: () => Navigator.of(context).pop('hi'),
+        ),
       ),
     );
   }
