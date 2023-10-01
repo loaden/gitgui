@@ -1,5 +1,5 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
-llvm_path := if os_family() == "windows" { "--llvm-path \"" + replace(trim(`where.exe clang.exe`), "\\bin\\clang.exe", "\"") } else { "" }
+llvm_path := if os_family() == "windows" { "--llvm-path \"" + replace(trim(`where.exe clang`), "\\bin\\clang.exe", "\"") } else { "" }
 c_path := if os() == "linux" { 'CPATH="$(clang -v 2>&1 | grep "Selected GCC installation" | rev | cut -d" " -f1 | rev)/include"' } else { "" }
 
 run:
@@ -7,14 +7,14 @@ run:
 
 gen:
   {{c_path}} flutter_rust_bridge_codegen {{llvm_path}} \
-    --rust-input native/src/api.rs \
-    --rust-output native/src/bridge_api.rs \
+    --rust-input rust/src/api.rs \
+    --rust-output rust/src/bridge_api.rs \
     --dart-output lib/bridge_api.dart \
-    --class-name NativeApi \
+    --class-name FfiApi \
     --inline-rust
 
 build:
-  cargo build --manifest-path native/Cargo.toml
+  cargo build --manifest-path rust/Cargo.toml
   dart run build_runner build
 
 get:

@@ -465,6 +465,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "ffi"
+version = "0.0.1"
+dependencies = [
+ "flutter_rust_bridge",
+ "flutter_rust_bridge_codegen",
+]
+
+[[package]]
 name = "flutter_rust_bridge"
 version = "1.82.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -766,14 +774,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e7810e0be55b428ada41041c41f32c9f1a42817901b4ccf45fa3d4b6561e74c7"
 dependencies = [
  "adler",
-]
-
-[[package]]
-name = "native"
-version = "0.1.0"
-dependencies = [
- "flutter_rust_bridge",
- "flutter_rust_bridge_codegen",
 ]
 
 [[package]]
