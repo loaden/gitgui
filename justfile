@@ -10,7 +10,10 @@ gen:
     --rust-input ffi/src/api.rs \
     --rust-output ffi/src/bridge_api.rs \
     --dart-output lib/bridge_api.dart \
+    --c-output ios/Runner/bridge_api.h \
+    --extra-c-output-path macos/Runner/ \
     --class-name FfiApi \
+    --dart-format-line-length 80 \
     --inline-rust
 
 build:

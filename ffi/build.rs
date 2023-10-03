@@ -12,6 +12,10 @@ use lib_flutter_rust_bridge_codegen::{
 const RUST_INPUT: &str = "src/api.rs";
 // Path of output generated Dart code
 const DART_OUTPUT: &str = "../lib/bridge_api.dart";
+// Output path of generated C header
+const C_OUTPUT: &str = "../ios/Runner/bridge_api.h";
+// Extra output path of generated C header
+const EXTRA_C_OUTPUT: &str = "../macos/Runner/";
 // Path of output Rust code
 const RUST_OUTPUT: &str = "src/bridge_api.rs";
 // Class name to use in dart, corresponding to each Rust block
@@ -29,6 +33,10 @@ fn main() {
         dart_output: vec![DART_OUTPUT.to_string()],
         // Path of output Rust code
         rust_output: Some(vec![RUST_OUTPUT.to_string()]),
+        // Path of generated C header
+        c_output: Some(vec![C_OUTPUT.to_string()]),
+        // Extra path of generated C header
+        extra_c_output_path: Some(vec![EXTRA_C_OUTPUT.to_string()]),
         // Class name of each Rust block of api
         class_name: Some(vec![CLASS_NAME.to_string()]),
         // Other options
