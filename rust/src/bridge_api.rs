@@ -58,6 +58,16 @@ fn wire_hello_from_rust_impl(
         },
     )
 }
+fn wire_app_run_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+        WrapInfo {
+            debug_name: "app_run",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(app_run()),
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks
@@ -110,6 +120,11 @@ mod io {
     #[no_mangle]
     pub extern "C" fn wire_hello_from_rust(port_: i64, count: usize) {
         wire_hello_from_rust_impl(port_, count)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_app_run(port_: i64) {
+        wire_app_run_impl(port_)
     }
 
     // Section: allocate functions

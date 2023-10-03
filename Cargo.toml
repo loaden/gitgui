@@ -2,7 +2,7 @@
 resolver = "2"
 members = [
     "rust",
-    "crates/core",
+    "crates/base",
 ]
 
 [profile.release]

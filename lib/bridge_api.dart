@@ -19,6 +19,10 @@ abstract class FfiApi {
   Future<String> helloFromRust({required int count, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kHelloFromRustConstMeta;
+
+  Future<void> appRun({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
 }
 
 class FfiApiImpl implements FfiApi {
@@ -69,6 +73,23 @@ class FfiApiImpl implements FfiApi {
         argNames: ["count"],
       );
 
+  Future<void> appRun({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_app_run(port_),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kAppRunConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "app_run",
+        argNames: [],
+      );
+
   void dispose() {
     _platform.dispose();
   }
@@ -84,6 +105,10 @@ class FfiApiImpl implements FfiApi {
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
     return raw as Uint8List;
+  }
+
+  void _wire2api_unit(dynamic raw) {
+    return;
   }
 
   int _wire2api_usize(dynamic raw) {
@@ -239,6 +264,18 @@ class FfiApiWire implements FlutterRustBridgeWireBase {
           'wire_hello_from_rust');
   late final _wire_hello_from_rust =
       _wire_hello_from_rustPtr.asFunction<void Function(int, int)>();
+
+  void wire_app_run(
+    int port_,
+  ) {
+    return _wire_app_run(
+      port_,
+    );
+  }
+
+  late final _wire_app_runPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_app_run');
+  late final _wire_app_run = _wire_app_runPtr.asFunction<void Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
