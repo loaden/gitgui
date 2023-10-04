@@ -21,8 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1115672F2ACC04C50096A4F8 /* native.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1115672A2ACC034B0096A4F8 /* native.dylib */; };
-		119FD8C52ACC0DAB00C5A984 /* native.dylib in Bundle Framework */ = {isa = PBXBuildFile; fileRef = 1115672A2ACC034B0096A4F8 /* native.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		113971DD2ACDA16E00035D70 /* native.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 113971C82ACD9DDF00035D70 /* native.dylib */; };
+		11A044A12ACDC3BC005CC839 /* native.dylib in Bundle Framework */ = {isa = PBXBuildFile; fileRef = 113971C82ACD9DDF00035D70 /* native.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		331C80D8294CF71000263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C80D7294CF71000263BE5 /* RunnerTests.swift */; };
 		335BBD1B22A9A15E00E9071D /* GeneratedPluginRegistrant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335BBD1A22A9A15E00E9071D /* GeneratedPluginRegistrant.swift */; };
 		33CC10F12044A3C60003C045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC10F02044A3C60003C045 /* AppDelegate.swift */; };
@@ -32,25 +32,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		111567292ACC034B0096A4F8 /* PBXContainerItemProxy */ = {
+		113971C72ACD9DDF00035D70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 111567242ACC034B0096A4F8 /* native.xcodeproj */;
+			containerPortal = 113971C22ACD9DDE00035D70 /* native.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = CA6011069D13B656460797C0;
+			remoteGlobalIDString = CA60339D2BDEEAC3B2E0A336;
 			remoteInfo = "native-cdylib";
 		};
-		1115672B2ACC034B0096A4F8 /* PBXContainerItemProxy */ = {
+		113971C92ACD9DDF00035D70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 111567242ACC034B0096A4F8 /* native.xcodeproj */;
+			containerPortal = 113971C22ACD9DDE00035D70 /* native.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = CA6096862AB72ADA43F272EF;
+			remoteGlobalIDString = CA60A0BE9E032969E816930C;
 			remoteInfo = "native-staticlib";
 		};
-		1115672D2ACC03E20096A4F8 /* PBXContainerItemProxy */ = {
+		113971D92ACDA16400035D70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 111567242ACC034B0096A4F8 /* native.xcodeproj */;
+			containerPortal = 113971C22ACD9DDE00035D70 /* native.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = CA6011069D13288143C43E5D;
+			remoteGlobalIDString = CA60339D2BDE7CBAA6B96EC4;
 			remoteInfo = "native-cdylib";
 		};
 		331C80D9294CF71000263BE5 /* PBXContainerItemProxy */ = {
@@ -76,7 +76,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				119FD8C52ACC0DAB00C5A984 /* native.dylib in Bundle Framework */,
+				11A044A12ACDC3BC005CC839 /* native.dylib in Bundle Framework */,
 			);
 			name = "Bundle Framework";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,7 +84,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		111567242ACC034B0096A4F8 /* native.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = native.xcodeproj; path = ../../native/native.xcodeproj; sourceTree = "<group>"; };
+		113971C22ACD9DDE00035D70 /* native.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = native.xcodeproj; path = ../native/native.xcodeproj; sourceTree = "<group>"; };
 		331C80D5294CF71000263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		331C80D7294CF71000263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		333000ED22D3DE5D00554162 /* Warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Warnings.xcconfig; sourceTree = "<group>"; };
@@ -117,18 +117,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1115672F2ACC04C50096A4F8 /* native.dylib in Frameworks */,
+				113971DD2ACDA16E00035D70 /* native.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		111567252ACC034B0096A4F8 /* Products */ = {
+		113971C32ACD9DDE00035D70 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1115672A2ACC034B0096A4F8 /* native.dylib */,
-				1115672C2ACC034B0096A4F8 /* libnative_static.a */,
+				113971C82ACD9DDF00035D70 /* native.dylib */,
+				113971CA2ACD9DDF00035D70 /* libnative_static.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +155,7 @@
 		33CC10E42044A3C60003C045 = {
 			isa = PBXGroup;
 			children = (
+				113971C22ACD9DDE00035D70 /* native.xcodeproj */,
 				33FAB671232836740065AC1E /* Runner */,
 				33CEB47122A05771004F2AC0 /* Flutter */,
 				331C80D6294CF71000263BE5 /* RunnerTests */,
@@ -197,7 +198,6 @@
 		33FAB671232836740065AC1E /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				111567242ACC034B0096A4F8 /* native.xcodeproj */,
 				33CC10F02044A3C60003C045 /* AppDelegate.swift */,
 				33CC11122044BFA00003C045 /* MainFlutterWindow.swift */,
 				33E51913231747F40026EE4D /* DebugProfile.entitlements */,
@@ -249,7 +249,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1115672E2ACC03E20096A4F8 /* PBXTargetDependency */,
+				113971DA2ACDA16400035D70 /* PBXTargetDependency */,
 				33CC11202044C79F0003C045 /* PBXTargetDependency */,
 			);
 			name = Runner;
@@ -300,8 +300,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 111567252ACC034B0096A4F8 /* Products */;
-					ProjectRef = 111567242ACC034B0096A4F8 /* native.xcodeproj */;
+					ProductGroup = 113971C32ACD9DDE00035D70 /* Products */;
+					ProjectRef = 113971C22ACD9DDE00035D70 /* native.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -314,18 +314,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1115672A2ACC034B0096A4F8 /* native.dylib */ = {
+		113971C82ACD9DDF00035D70 /* native.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = native.dylib;
-			remoteRef = 111567292ACC034B0096A4F8 /* PBXContainerItemProxy */;
+			remoteRef = 113971C72ACD9DDF00035D70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1115672C2ACC034B0096A4F8 /* libnative_static.a */ = {
+		113971CA2ACD9DDF00035D70 /* libnative_static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libnative_static.a;
-			remoteRef = 1115672B2ACC034B0096A4F8 /* PBXContainerItemProxy */;
+			remoteRef = 113971C92ACD9DDF00035D70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -412,10 +412,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1115672E2ACC03E20096A4F8 /* PBXTargetDependency */ = {
+		113971DA2ACDA16400035D70 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "native-cdylib";
-			targetProxy = 1115672D2ACC03E20096A4F8 /* PBXContainerItemProxy */;
+			targetProxy = 113971D92ACDA16400035D70 /* PBXContainerItemProxy */;
 		};
 		331C80DA294CF71000263BE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -546,7 +546,6 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				STRIP_STYLE = "non-global";
 				SWIFT_OBJC_BRIDGING_HEADER = Runner/bridge_api.h;
 				SWIFT_VERSION = 5.0;
 			};
@@ -673,8 +672,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				STRIP_STYLE = "non-global";
 				SWIFT_OBJC_BRIDGING_HEADER = Runner/bridge_api.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -697,7 +696,6 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				STRIP_STYLE = "non-global";
 				SWIFT_OBJC_BRIDGING_HEADER = Runner/bridge_api.h;
 				SWIFT_VERSION = 5.0;
 			};

@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA6086F1F191288143C43E5D /* Cargo.toml in Sources */ = {isa = PBXBuildFile; fileRef = CA604D24306A3EF4668187A5 /* Cargo.toml */; settings = {COMPILER_FLAGS = "--lib"; }; };
-		CA6086F1F191BBA7D9C39BC6 /* Cargo.toml in Sources */ = {isa = PBXBuildFile; fileRef = CA604D24306A3EF4668187A5 /* Cargo.toml */; settings = {COMPILER_FLAGS = "--lib"; }; };
+		CA600AB731B27CBAA6B96EC4 /* Cargo.toml in Sources */ = {isa = PBXBuildFile; fileRef = CA60D851485C3EF4668187A5 /* Cargo.toml */; settings = {COMPILER_FLAGS = "--lib"; }; };
+		CA600AB731B2883AF3DACE8C /* Cargo.toml in Sources */ = {isa = PBXBuildFile; fileRef = CA60D851485C3EF4668187A5 /* Cargo.toml */; settings = {COMPILER_FLAGS = "--lib"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
-		CA604D24306AAC6C1400ACA8 /* PBXBuildRule */ = {
+		CA60D851485CAC6C1400ACA8 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			dependencyFile = "$(DERIVED_FILE_DIR)/$(CARGO_XCODE_TARGET_ARCH)-$(EXECUTABLE_NAME).d";
@@ -30,93 +30,93 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
-		CA6011069D13B656460797C0 /* native.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = native.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA604D24306A3EF4668187A5 /* Cargo.toml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cargo.toml; sourceTree = "<group>"; };
-		CA6096862AB72ADA43F272EF /* libnative_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libnative_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA60339D2BDEEAC3B2E0A336 /* native.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = native.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA60A0BE9E032969E816930C /* libnative_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libnative_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA60D851485C3EF4668187A5 /* Cargo.toml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cargo.toml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		CA604D24306A22869D176AE5 /* Products */ = {
+		CA60D851485C22869D176AE5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA6011069D13B656460797C0 /* native.dylib */,
-				CA6096862AB72ADA43F272EF /* libnative_static.a */,
+				CA60339D2BDEEAC3B2E0A336 /* native.dylib */,
+				CA60A0BE9E032969E816930C /* libnative_static.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CA604D24306A98AF0B5890DB /* Frameworks */ = {
+		CA60D851485C98AF0B5890DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CA604D24306AD65BC3C892A8 = {
+		CA60D851485CD65BC3C892A8 = {
 			isa = PBXGroup;
 			children = (
-				CA604D24306A3EF4668187A5 /* Cargo.toml */,
-				CA604D24306A22869D176AE5 /* Products */,
-				CA604D24306A98AF0B5890DB /* Frameworks */,
+				CA60D851485C3EF4668187A5 /* Cargo.toml */,
+				CA60D851485C22869D176AE5 /* Products */,
+				CA60D851485C98AF0B5890DB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CA6011069D13288143C43E5D /* native-cdylib */ = {
+		CA60339D2BDE7CBAA6B96EC4 /* native-cdylib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA6014602922288143C43E5D /* Build configuration list for PBXNativeTarget "native-cdylib" */;
+			buildConfigurationList = CA600CC43ACA7CBAA6B96EC4 /* Build configuration list for PBXNativeTarget "native-cdylib" */;
 			buildPhases = (
-				CA60301F5461288143C43E5D /* Sources */,
-				CA604D24306AAF6EBB7F357C /* Universal Binary lipo */,
+				CA604765F4B37CBAA6B96EC4 /* Sources */,
+				CA60D851485CAF6EBB7F357C /* Universal Binary lipo */,
 			);
 			buildRules = (
-				CA604D24306AAC6C1400ACA8 /* PBXBuildRule */,
+				CA60D851485CAC6C1400ACA8 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
 			name = "native-cdylib";
 			productName = native.dylib;
-			productReference = CA6011069D13B656460797C0 /* native.dylib */;
+			productReference = CA60339D2BDEEAC3B2E0A336 /* native.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		CA6096862AB7BBA7D9C39BC6 /* native-staticlib */ = {
+		CA60A0BE9E03883AF3DACE8C /* native-staticlib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA6014602922BBA7D9C39BC6 /* Build configuration list for PBXNativeTarget "native-staticlib" */;
+			buildConfigurationList = CA600CC43ACA883AF3DACE8C /* Build configuration list for PBXNativeTarget "native-staticlib" */;
 			buildPhases = (
-				CA60301F5461BBA7D9C39BC6 /* Sources */,
-				CA604D24306AAF6EBB7F357C /* Universal Binary lipo */,
+				CA604765F4B3883AF3DACE8C /* Sources */,
+				CA60D851485CAF6EBB7F357C /* Universal Binary lipo */,
 			);
 			buildRules = (
-				CA604D24306AAC6C1400ACA8 /* PBXBuildRule */,
+				CA60D851485CAC6C1400ACA8 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
 			name = "native-staticlib";
 			productName = libnative_static.a;
-			productReference = CA6096862AB72ADA43F272EF /* libnative_static.a */;
+			productReference = CA60A0BE9E032969E816930C /* libnative_static.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		CA604D24306AE04653AD465F /* Project object */ = {
+		CA60D851485CE04653AD465F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
-					CA6011069D13288143C43E5D = {
+					CA60339D2BDE7CBAA6B96EC4 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
-					CA6096862AB7BBA7D9C39BC6 = {
+					CA60A0BE9E03883AF3DACE8C = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = CA604D24306A80E02D6C7F57 /* Build configuration list for PBXProject "native" */;
+			buildConfigurationList = CA60D851485C80E02D6C7F57 /* Build configuration list for PBXProject "native" */;
 			compatibilityVersion = "Xcode 11.4";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -124,19 +124,19 @@
 				en,
 				Base,
 			);
-			mainGroup = CA604D24306AD65BC3C892A8;
-			productRefGroup = CA604D24306A22869D176AE5 /* Products */;
+			mainGroup = CA60D851485CD65BC3C892A8;
+			productRefGroup = CA60D851485C22869D176AE5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CA6011069D13288143C43E5D /* native-cdylib */,
-				CA6096862AB7BBA7D9C39BC6 /* native-staticlib */,
+				CA60339D2BDE7CBAA6B96EC4 /* native-cdylib */,
+				CA60A0BE9E03883AF3DACE8C /* native-staticlib */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		CA604D24306AAF6EBB7F357C /* Universal Binary lipo */ = {
+		CA60D851485CAF6EBB7F357C /* Universal Binary lipo */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -159,38 +159,38 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CA60301F5461288143C43E5D /* Sources */ = {
+		CA604765F4B37CBAA6B96EC4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA6086F1F191288143C43E5D /* Cargo.toml in Sources */,
+				CA600AB731B27CBAA6B96EC4 /* Cargo.toml in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CA60301F5461BBA7D9C39BC6 /* Sources */ = {
+		CA604765F4B3883AF3DACE8C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA6086F1F191BBA7D9C39BC6 /* Cargo.toml in Sources */,
+				CA600AB731B2883AF3DACE8C /* Cargo.toml in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		CA604D98AA17288143C43E5D /* Debug */ = {
+		CA607202B4D17CBAA6B96EC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
 				CARGO_XCODE_CARGO_FILE_NAME = libnative.dylib;
 				DYLIB_COMPATIBILITY_VERSION = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../Frameworks/";
 				PRODUCT_NAME = native;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
 		};
-		CA604D98AA17BBA7D9C39BC6 /* Debug */ = {
+		CA607202B4D1883AF3DACE8C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
@@ -204,33 +204,7 @@
 			};
 			name = Debug;
 		};
-		CA60AA4C764E288143C43E5D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
-				CARGO_XCODE_CARGO_FILE_NAME = libnative.dylib;
-				DYLIB_COMPATIBILITY_VERSION = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_NAME = native;
-				SUPPORTED_PLATFORMS = macosx;
-			};
-			name = Release;
-		};
-		CA60AA4C764EBBA7D9C39BC6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
-				CARGO_XCODE_CARGO_FILE_NAME = libnative.a;
-				INSTALL_GROUP = "";
-				INSTALL_MODE_FLAG = "";
-				INSTALL_OWNER = "";
-				PRODUCT_NAME = native_static;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletvos";
-			};
-			name = Release;
-		};
-		CA60B3E605C7228BE02872F8 /* Debug */ = {
+		CA60AB42162F228BE02872F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -247,20 +221,17 @@
 				"CARGO_XCODE_TARGET_OS[sdk=iphonesimulator*][arch=x86_64*]" = ios;
 				"CARGO_XCODE_TARGET_OS[sdk=macosx*]" = darwin;
 				CURRENT_PROJECT_VERSION = 0.0;
-				DYLIB_INSTALL_NAME_BASE = "@executable_path/../Frameworks/";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = native;
 				SDKROOT = macosx;
-				STRIP_STYLE = "non-global";
 				SUPPORTS_MACCATALYST = YES;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
-		CA60B3E605C73CC16B37690B /* Release */ = {
+		CA60AB42162F3CC16B37690B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -277,50 +248,73 @@
 				"CARGO_XCODE_TARGET_OS[sdk=iphonesimulator*][arch=x86_64*]" = ios;
 				"CARGO_XCODE_TARGET_OS[sdk=macosx*]" = darwin;
 				CURRENT_PROJECT_VERSION = 0.0;
-				DYLIB_INSTALL_NAME_BASE = "@executable_path/../Frameworks/";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 0.0.1;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = native;
 				SDKROOT = macosx;
-				STRIP_STYLE = "non-global";
 				SUPPORTS_MACCATALYST = YES;
-				TVOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		CA60E3B979367CBAA6B96EC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
+				CARGO_XCODE_CARGO_FILE_NAME = libnative.dylib;
+				DYLIB_COMPATIBILITY_VERSION = 0;
+				DYLIB_INSTALL_NAME_BASE = "@executable_path/../Frameworks/";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = native;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Release;
+		};
+		CA60E3B97936883AF3DACE8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
+				CARGO_XCODE_CARGO_FILE_NAME = libnative.a;
+				INSTALL_GROUP = "";
+				INSTALL_MODE_FLAG = "";
+				INSTALL_OWNER = "";
+				PRODUCT_NAME = native_static;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletvos";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CA6014602922288143C43E5D /* Build configuration list for PBXNativeTarget "native-cdylib" */ = {
+		CA600CC43ACA7CBAA6B96EC4 /* Build configuration list for PBXNativeTarget "native-cdylib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA60AA4C764E288143C43E5D /* Release */,
-				CA604D98AA17288143C43E5D /* Debug */,
+				CA60E3B979367CBAA6B96EC4 /* Release */,
+				CA607202B4D17CBAA6B96EC4 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA6014602922BBA7D9C39BC6 /* Build configuration list for PBXNativeTarget "native-staticlib" */ = {
+		CA600CC43ACA883AF3DACE8C /* Build configuration list for PBXNativeTarget "native-staticlib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA60AA4C764EBBA7D9C39BC6 /* Release */,
-				CA604D98AA17BBA7D9C39BC6 /* Debug */,
+				CA60E3B97936883AF3DACE8C /* Release */,
+				CA607202B4D1883AF3DACE8C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA604D24306A80E02D6C7F57 /* Build configuration list for PBXProject "native" */ = {
+		CA60D851485C80E02D6C7F57 /* Build configuration list for PBXProject "native" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA60B3E605C73CC16B37690B /* Release */,
-				CA60B3E605C7228BE02872F8 /* Debug */,
+				CA60AB42162F3CC16B37690B /* Release */,
+				CA60AB42162F228BE02872F8 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = CA604D24306AE04653AD465F /* Project object */;
+	rootObject = CA60D851485CE04653AD465F /* Project object */;
 }
