@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gitgui/widget/button.dart';
 import 'package:gitgui/route/route.dart' as route;
-import 'package:gitgui/ffi.dart';
+import 'package:gitgui/native.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: ffiString()),
+      appBar: AppBar(title: nativeString()),
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +31,7 @@ class Home extends StatelessWidget {
   }
 }
 
-Widget ffiString() {
+Widget nativeString() {
   return FutureBuilder<List<dynamic>>(
     future: Future.wait([api.helloFromRust(count: 2)]),
     builder: (context, snap) {

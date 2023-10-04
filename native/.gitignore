@@ -1,3 +1,5 @@
 # Xcode-related
 **/dgph
 **/xcuserdata/
+**/*.xcworkspacedata
+**/*.plist

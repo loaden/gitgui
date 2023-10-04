@@ -7,17 +7,17 @@ run:
 
 gen:
   {{c_path}} flutter_rust_bridge_codegen {{llvm_path}} \
-    --rust-input ffi/src/api.rs \
-    --rust-output ffi/src/bridge_api.rs \
+    --rust-input native/src/api.rs \
+    --rust-output native/src/bridge_api.rs \
     --dart-output lib/bridge_api.dart \
     --c-output ios/Runner/bridge_api.h \
     --extra-c-output-path macos/Runner/ \
-    --class-name FfiApi \
+    --class-name Native \
     --dart-format-line-length 80 \
     --inline-rust
 
 build:
-  cargo build --manifest-path ffi/Cargo.toml
+  cargo build --manifest-path native/Cargo.toml
   dart run build_runner build
 
 get:

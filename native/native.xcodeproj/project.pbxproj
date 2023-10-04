@@ -30,17 +30,17 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
-		CA6011069D13B656460797C0 /* ffi.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = ffi.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA6011069D13B656460797C0 /* native.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = native.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA604D24306A3EF4668187A5 /* Cargo.toml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cargo.toml; sourceTree = "<group>"; };
-		CA6096862AB72ADA43F272EF /* libffi_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libffi_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA6096862AB72ADA43F272EF /* libnative_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libnative_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		CA604D24306A22869D176AE5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA6011069D13B656460797C0 /* ffi.dylib */,
-				CA6096862AB72ADA43F272EF /* libffi_static.a */,
+				CA6011069D13B656460797C0 /* native.dylib */,
+				CA6096862AB72ADA43F272EF /* libnative_static.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,9 +64,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CA6011069D13288143C43E5D /* ffi-cdylib */ = {
+		CA6011069D13288143C43E5D /* native-cdylib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA6014602922288143C43E5D /* Build configuration list for PBXNativeTarget "ffi-cdylib" */;
+			buildConfigurationList = CA6014602922288143C43E5D /* Build configuration list for PBXNativeTarget "native-cdylib" */;
 			buildPhases = (
 				CA60301F5461288143C43E5D /* Sources */,
 				CA604D24306AAF6EBB7F357C /* Universal Binary lipo */,
@@ -76,14 +76,14 @@
 			);
 			dependencies = (
 			);
-			name = "ffi-cdylib";
-			productName = ffi.dylib;
-			productReference = CA6011069D13B656460797C0 /* ffi.dylib */;
+			name = "native-cdylib";
+			productName = native.dylib;
+			productReference = CA6011069D13B656460797C0 /* native.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		CA6096862AB7BBA7D9C39BC6 /* ffi-staticlib */ = {
+		CA6096862AB7BBA7D9C39BC6 /* native-staticlib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA6014602922BBA7D9C39BC6 /* Build configuration list for PBXNativeTarget "ffi-staticlib" */;
+			buildConfigurationList = CA6014602922BBA7D9C39BC6 /* Build configuration list for PBXNativeTarget "native-staticlib" */;
 			buildPhases = (
 				CA60301F5461BBA7D9C39BC6 /* Sources */,
 				CA604D24306AAF6EBB7F357C /* Universal Binary lipo */,
@@ -93,9 +93,9 @@
 			);
 			dependencies = (
 			);
-			name = "ffi-staticlib";
-			productName = libffi_static.a;
-			productReference = CA6096862AB72ADA43F272EF /* libffi_static.a */;
+			name = "native-staticlib";
+			productName = libnative_static.a;
+			productReference = CA6096862AB72ADA43F272EF /* libnative_static.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -116,7 +116,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CA604D24306A80E02D6C7F57 /* Build configuration list for PBXProject "ffi" */;
+			buildConfigurationList = CA604D24306A80E02D6C7F57 /* Build configuration list for PBXProject "native" */;
 			compatibilityVersion = "Xcode 11.4";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -129,8 +129,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CA6011069D13288143C43E5D /* ffi-cdylib */,
-				CA6096862AB7BBA7D9C39BC6 /* ffi-staticlib */,
+				CA6011069D13288143C43E5D /* native-cdylib */,
+				CA6096862AB7BBA7D9C39BC6 /* native-staticlib */,
 			);
 		};
 /* End PBXProject section */
@@ -181,11 +181,11 @@
 		CA604D98AA17288143C43E5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CARGO_XCODE_CARGO_DEP_FILE_NAME = libffi.d;
-				CARGO_XCODE_CARGO_FILE_NAME = libffi.dylib;
+				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
+				CARGO_XCODE_CARGO_FILE_NAME = libnative.dylib;
 				DYLIB_COMPATIBILITY_VERSION = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_NAME = ffi;
+				PRODUCT_NAME = native;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Debug;
@@ -193,12 +193,12 @@
 		CA604D98AA17BBA7D9C39BC6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CARGO_XCODE_CARGO_DEP_FILE_NAME = libffi.d;
-				CARGO_XCODE_CARGO_FILE_NAME = libffi.a;
+				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
+				CARGO_XCODE_CARGO_FILE_NAME = libnative.a;
 				INSTALL_GROUP = "";
 				INSTALL_MODE_FLAG = "";
 				INSTALL_OWNER = "";
-				PRODUCT_NAME = ffi_static;
+				PRODUCT_NAME = native_static;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletvos";
 			};
@@ -207,11 +207,11 @@
 		CA60AA4C764E288143C43E5D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CARGO_XCODE_CARGO_DEP_FILE_NAME = libffi.d;
-				CARGO_XCODE_CARGO_FILE_NAME = libffi.dylib;
+				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
+				CARGO_XCODE_CARGO_FILE_NAME = libnative.dylib;
 				DYLIB_COMPATIBILITY_VERSION = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				PRODUCT_NAME = ffi;
+				PRODUCT_NAME = native;
 				SUPPORTED_PLATFORMS = macosx;
 			};
 			name = Release;
@@ -219,12 +219,12 @@
 		CA60AA4C764EBBA7D9C39BC6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CARGO_XCODE_CARGO_DEP_FILE_NAME = libffi.d;
-				CARGO_XCODE_CARGO_FILE_NAME = libffi.a;
+				CARGO_XCODE_CARGO_DEP_FILE_NAME = libnative.d;
+				CARGO_XCODE_CARGO_FILE_NAME = libnative.a;
 				INSTALL_GROUP = "";
 				INSTALL_MODE_FLAG = "";
 				INSTALL_OWNER = "";
-				PRODUCT_NAME = ffi_static;
+				PRODUCT_NAME = native_static;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos appletvsimulator appletvos";
 			};
@@ -252,7 +252,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = ffi;
+				PRODUCT_NAME = native;
 				SDKROOT = macosx;
 				STRIP_STYLE = "non-global";
 				SUPPORTS_MACCATALYST = YES;
@@ -282,7 +282,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = ffi;
+				PRODUCT_NAME = native;
 				SDKROOT = macosx;
 				STRIP_STYLE = "non-global";
 				SUPPORTS_MACCATALYST = YES;
@@ -293,7 +293,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CA6014602922288143C43E5D /* Build configuration list for PBXNativeTarget "ffi-cdylib" */ = {
+		CA6014602922288143C43E5D /* Build configuration list for PBXNativeTarget "native-cdylib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA60AA4C764E288143C43E5D /* Release */,
@@ -302,7 +302,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA6014602922BBA7D9C39BC6 /* Build configuration list for PBXNativeTarget "ffi-staticlib" */ = {
+		CA6014602922BBA7D9C39BC6 /* Build configuration list for PBXNativeTarget "native-staticlib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA60AA4C764EBBA7D9C39BC6 /* Release */,
@@ -311,7 +311,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA604D24306A80E02D6C7F57 /* Build configuration list for PBXProject "ffi" */ = {
+		CA604D24306A80E02D6C7F57 /* Build configuration list for PBXProject "native" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA60B3E605C73CC16B37690B /* Release */,

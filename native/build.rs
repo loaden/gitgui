@@ -19,7 +19,7 @@ const EXTRA_C_OUTPUT: &str = "../macos/Runner/";
 // Path of output Rust code
 const RUST_OUTPUT: &str = "src/bridge_api.rs";
 // Class name to use in dart, corresponding to each Rust block
-const CLASS_NAME: &str = "FfiApi";
+const CLASS_NAME: &str = "Native";
 
 fn main() {
     // Tell Cargo that if the input Rust code changes, to rerun this build script.
