@@ -1,6 +1,10 @@
 buildscript {
     ext.kotlin_version = '1.7.10'
     repositories {
+        println "aliyun repositories"
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
         google()
         mavenCentral()
     }
@@ -13,6 +17,10 @@ buildscript {
 
 allprojects {
     repositories {
+        println "aliyun allprojects ${project.name}"
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
         google()
         mavenCentral()
     }
