@@ -140,4 +140,4 @@ endif()
 
 
 # Include the CMake build file of our Rust project here.
-include(rust.cmake)
+include(../rust.cmake)

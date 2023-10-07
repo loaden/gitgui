@@ -1,27 +1,33 @@
-# We include Corrosion inline here, but ideally in a project with
-# many dependencies we would need to install Corrosion on the system.
-# See instructions on https://github.com/corrosion-rs/corrosion#cmake-install
-# Once done, uncomment this line:
-# find_package(Corrosion REQUIRED)
+set(ENV{CARGO_TARGET_DIR})
+message(STATUS $ENV{CARGO_TARGET_DIR})
 
-# include(FetchContent)
+if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(CARGO_BUILD_TYPE "")
+  set(TARGET_DIR "debug")
+else ()
+  set(CARGO_BUILD_TYPE "--release")
+  set(TARGET_DIR "release")
+endif ()
 
-# FetchContent_Declare(
-#     Corrosion
-#     GIT_REPOSITORY git@github.com:corrosion-rs/corrosion.git
-#     GIT_TAG v0.4.3 # Optionally specify a version tag or branch here
-# )
+set(CARGO_MANIFEST_PATH "--manifest-path=../native/Cargo.toml")
 
-# FetchContent_MakeAvailable(Corrosion)
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
+	set(NATIVE_LIBRARY "../target/${TARGET_DIR}/libnative.so")
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
+	set(NATIVE_LIBRARY "../target/${TARGET_DIR}/native.dll")
+else()
+  set(NATIVE_LIBRARY "non-exist")
+endif()
 
+message(INSTALL_BUNDLE_LIB_DIR " = " ${INSTALL_BUNDLE_LIB_DIR})
+message(FLUTTER_TARGET_PLATFORM " = " ${FLUTTER_TARGET_PLATFORM})
+message(NATIVE_LIBRARY " = " ${NATIVE_LIBRARY})
 
-set(Corrosion_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-find_package(Corrosion REQUIRED)
+add_custom_target(native ALL
+  COMMAND cargo build ${CARGO_BUILD_TYPE} ${CARGO_MANIFEST_PATH}
+  # COMMAND ${CMAKE_COMMAND} -E copy ${NATIVE_LIBRARY} ${INSTALL_BUNDLE_LIB_DIR}/
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
-corrosion_import_crate(MANIFEST_PATH ../native/Cargo.toml IMPORTED_CRATES imported_crates)
-
-target_link_libraries(${BINARY_NAME} PRIVATE ${imported_crates})
-foreach(imported_crate ${imported_crates})
-  list(APPEND PLUGIN_BUNDLED_LIBRARIES $<TARGET_FILE:${imported_crate}-shared>)
-endforeach()
+install(FILES "${NATIVE_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
+  COMPONENT Runtime)

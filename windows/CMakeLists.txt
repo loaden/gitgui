@@ -57,9 +57,6 @@ add_subdirectory("runner")
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
-# Include the CMake build file of our Rust project here.
-include(../rust.cmake)
-
 
 # === Installation ===
 # Support files are copied into place next to the executable, so that it can
@@ -103,3 +100,7 @@ install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
 install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
+
+
+# Include the CMake build file of our Rust project here.
+include(../rust.cmake)
