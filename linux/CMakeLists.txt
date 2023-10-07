@@ -1,5 +1,5 @@
 # Project-level configuration.
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
@@ -91,9 +91,6 @@ set_target_properties(${BINARY_NAME}
 # them to the application.
 include(flutter/generated_plugins.cmake)
 
-# Include the CMake build file of our Rust project here.
-# include(../rust.cmake)
-
 
 # === Installation ===
 # By default, "installing" just makes a relocatable bundle in the build
@@ -141,11 +138,6 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     COMPONENT Runtime)
 endif()
 
-# Integration with Rust
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-  set(NATIVE_LIBRARY "${CMAKE_SOURCE_DIR}/../target/debug/libnative.so")
-else()
-  set(NATIVE_LIBRARY "${CMAKE_SOURCE_DIR}/../target/release/libnative.so")
-endif()
-install(FILES "${NATIVE_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
-  COMPONENT Runtime)
+
+# Include the CMake build file of our Rust project here.
+include(rust.cmake)
