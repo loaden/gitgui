@@ -92,7 +92,7 @@ set_target_properties(${BINARY_NAME}
 include(flutter/generated_plugins.cmake)
 
 # Include the CMake build file of our Rust project here.
-include(../rust.cmake)
+# include(../rust.cmake)
 
 
 # === Installation ===
@@ -141,7 +141,11 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
     COMPONENT Runtime)
 endif()
 
-# Give a try: https://github.com/fzyzcjy/flutter_rust_bridge/issues/318#issuecomment-1038751426
-# set(NATIVE_LIBRARY "${CMAKE_SOURCE_DIR}/../target/aarch64-unknown-linux-gnu/debug/librust_flutter.so")
-# install(FILES "${NATIVE_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
-#   COMPONENT Runtime)
+# Integration with Rust
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+  set(NATIVE_LIBRARY "${CMAKE_SOURCE_DIR}/../target/debug/libnative.so")
+else()
+  set(NATIVE_LIBRARY "${CMAKE_SOURCE_DIR}/../target/release/libnative.so")
+endif()
+install(FILES "${NATIVE_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
+  COMPONENT Runtime)
