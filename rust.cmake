@@ -1,13 +1,13 @@
 set(ENV{CARGO_TARGET_DIR})
 message(STATUS $ENV{CARGO_TARGET_DIR})
 
-if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR $ENV{CARGO_BUILD_TYPE} STREQUAL "Debug")
   set(CARGO_BUILD_TYPE "")
   set(TARGET_DIR "debug")
-else ()
+else()
   set(CARGO_BUILD_TYPE "--release")
   set(TARGET_DIR "release")
-endif ()
+endif()
 
 set(CARGO_MANIFEST_PATH "--manifest-path=../native/Cargo.toml")
 
@@ -19,8 +19,8 @@ else()
   set(NATIVE_LIBRARY "non-exist")
 endif()
 
-message(INSTALL_BUNDLE_LIB_DIR " = " ${INSTALL_BUNDLE_LIB_DIR})
-message(FLUTTER_TARGET_PLATFORM " = " ${FLUTTER_TARGET_PLATFORM})
+message(CMAKE_BUILD_TYPE " = " ${CMAKE_BUILD_TYPE})
+message(CARGO_BUILD_TYPE " = " $ENV{CARGO_BUILD_TYPE})
 message(NATIVE_LIBRARY " = " ${NATIVE_LIBRARY})
 
 add_custom_target(native ALL

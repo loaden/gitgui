@@ -2,6 +2,8 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 llvm_path := if os_family() == "windows" { "--llvm-path \"" + replace(trim(`where.exe clang`), "\\bin\\clang.exe", "\"") } else { "" }
 c_path := if os() == "linux" { 'CPATH="$(clang -v 2>&1 | grep "Selected GCC installation" | rev | cut -d" " -f1 | rev)/include"' } else { "" }
 
+export CARGO_BUILD_TYPE := "Debug"
+
 run:
   flutter run
 
