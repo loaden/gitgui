@@ -49,6 +49,13 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+                abiFilters 'x86_64', 'arm64-v8a'
+                targets "native"
+            }
+        }
     }
 
     buildTypes {
@@ -60,8 +67,8 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path file('../CMakeLists.txt')
-            version "3.27.6"
+            path file('CMakeLists.txt')
+            version '3.22.1'
         }
     }
 }
