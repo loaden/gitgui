@@ -4,6 +4,9 @@ c_path := if os() == "linux" { 'CPATH="$(clang -v 2>&1 | grep "Selected GCC inst
 target := if os() == "macos" { "macos" } else if os() == "windows" { "windows" } else { "linux" }
 export BUILD_TYPE := if os_family() == "windows" { "Debug" } else { "" }
 export ANDROID_TARGET_ABI := env_var_or_default('ANDROID_TARGET_ABI', 'x86_64')
+export OPENSSL_DIR := if os_family() == "windows" { "C:/Users/Lucky/.dev/sdk/openssl" } else { "" }
+export OPENSSL_LIB_DIR := if os_family() == "windows" { "C:/Users/Lucky/.dev/sdk/openssl/x86_64" } else { "" }
+
 
 default:
   flutter run
