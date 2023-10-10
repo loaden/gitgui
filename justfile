@@ -8,6 +8,9 @@ export ANDROID_TARGET_ABI := env_var_or_default('ANDROID_TARGET_ABI', 'x86_64')
 default:
   flutter run
 
+arg arg:
+  flutter run {{arg}}
+
 run:
   flutter run -d {{target}}
 
