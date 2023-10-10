@@ -3,7 +3,7 @@ llvm_path := if os_family() == "windows" { "--llvm-path \"" + replace(trim(`wher
 c_path := if os() == "linux" { 'CPATH="$(clang -v 2>&1 | grep "Selected GCC installation" | rev | cut -d" " -f1 | rev)/include"' } else { "" }
 target := if os() == "macos" { "macos" } else if os() == "windows" { "windows" } else { "linux" }
 export BUILD_TYPE := if os_family() == "windows" { "Debug" } else { "" }
-export ANDROID_TARGET := env_var_or_default('ANDROID_TARGET', 'x86_64d')
+export ANDROID_TARGET_ABI := env_var_or_default('ANDROID_TARGET_ABI', 'x86_64')
 
 default:
   flutter run
