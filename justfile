@@ -27,7 +27,7 @@ build $BUILD_TYPE="Release":
 release $BUILD_TYPE="Release":
   flutter run --release -d {{target}}
 
-android $ANDROID_ABI_DEBUG="":
+apk $ANDROID_ABI_DEBUG="":
   flutter build apk
 
 gen:
