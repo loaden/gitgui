@@ -1,9 +1,10 @@
-use git2::{DiffFormat, Repository};
+use git2::{DiffFormat, Repository, Status};
 
 #[derive(Default)]
 pub struct App {
     status_items: Vec<String>,
     status_select: Option<usize>,
+    index_items: Vec<String>,
     diff: String,
     offset: u16,
     do_quit: bool,
@@ -29,12 +30,33 @@ impl App {
             panic!("bare repo")
         }
 
-        let status = repo.statuses(None).unwrap();
+        let statuses = repo.statuses(None).unwrap();
 
-        self.status_items = status
-            .iter()
-            .map(|e| e.path().unwrap().to_string())
-            .collect();
+        self.status_items = Vec::new();
+        self.index_items = Vec::new();
+
+        for e in statuses.iter() {
+            let status: Status = e.status();
+            if status.is_ignored() {
+                continue;
+            }
+
+            if status.is_index_new() || status.is_index_modified() {
+                self.index_items.push(format!(
+                    "{} ({:?})",
+                    e.path().unwrap().to_string(),
+                    status
+                ))
+            }
+
+            if status.is_wt_new() || status.is_wt_modified() {
+                self.status_items.push(format!(
+                    "{} ({:?})",
+                    e.path().unwrap().to_string(),
+                    status
+                ))
+            }
+        }
 
         self.status_select = if self.status_items.len() > 0 {
             Some(0)
