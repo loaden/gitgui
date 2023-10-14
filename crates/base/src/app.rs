@@ -1,8 +1,9 @@
 use git2::{DiffFormat, Repository, Status};
-use std::sync::OnceLock;
+use std::sync::Mutex;
 
-pub static mut APP: OnceLock<App> = OnceLock::new();
-pub static mut COUNT: usize = 0;
+lazy_static::lazy_static! {
+    pub static ref APP: Mutex<App> = Mutex::new(App::default());
+}
 
 #[derive(Default)]
 pub struct App {
@@ -11,26 +12,16 @@ pub struct App {
     index_items: Vec<String>,
     diff: String,
     do_quit: bool,
-}
-
-impl App {
-    pub fn global() -> &'static App {
-        unsafe {
-            APP.get_or_init(|| {
-                println!("App is being created...");
-                App::default()
-            })
-        }
-    }
-
-    pub fn log(&self, message: String) {
-        println!("{}", message)
-    }
+    count: u32,
 }
 
 impl App {
     pub fn is_quit(&self) -> bool {
         self.do_quit
+    }
+
+    pub fn log(&self, msg: &str) {
+        println!("COUNT: {}, {}", self.count, msg);
     }
 }
 
@@ -83,6 +74,7 @@ impl App {
         };
 
         self.diff = self.get_diff();
+        self.count += 1;
     }
 
     pub fn get_diff(&self) -> String {

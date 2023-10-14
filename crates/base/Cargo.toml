@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 git2 = "0.18.0"
+lazy_static = "1.4.0"
