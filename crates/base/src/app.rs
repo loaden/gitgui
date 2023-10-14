@@ -1,4 +1,8 @@
 use git2::{DiffFormat, Repository, Status};
+use std::sync::OnceLock;
+
+pub static mut APP: OnceLock<App> = OnceLock::new();
+pub static mut COUNT: usize = 0;
 
 #[derive(Default)]
 pub struct App {
@@ -6,8 +10,22 @@ pub struct App {
     status_select: Option<usize>,
     index_items: Vec<String>,
     diff: String,
-    offset: u16,
     do_quit: bool,
+}
+
+impl App {
+    pub fn global() -> &'static App {
+        unsafe {
+            APP.get_or_init(|| {
+                println!("App is being created...");
+                App::default()
+            })
+        }
+    }
+
+    pub fn log(&self, message: String) {
+        println!("{}", message)
+    }
 }
 
 impl App {
@@ -67,7 +85,7 @@ impl App {
         self.diff = self.get_diff();
     }
 
-    pub fn get_diff(&mut self) -> String {
+    pub fn get_diff(&self) -> String {
         let repo = Repository::init("./").unwrap();
 
         if repo.is_bare() {
