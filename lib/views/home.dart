@@ -3,13 +3,26 @@ import 'package:gitgui/widget/button.dart';
 import 'package:gitgui/route/route.dart' as route;
 import 'package:gitgui/native.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String? rustHiText;
+
+  @override
+  void initState() {
+    super.initState();
+    _callHelloFromRust();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: nativeString()),
+      appBar: AppBar(title: Text(rustHiText!)),
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -29,18 +42,9 @@ class Home extends StatelessWidget {
   void _onBtn(bool b, BuildContext context) {
     Navigator.of(context).pushNamed(route.configPage);
   }
-}
 
-Widget nativeString() {
-  return FutureBuilder<List<dynamic>>(
-    future: Future.wait([api.helloFromRust(count: 2)]),
-    builder: (context, snap) {
-      final data = snap.data;
-      if (data == null) {
-        return const Text("Loading");
-      }
-
-      return Text('${data[0]}');
-    },
-  );
+  Future<void> _callHelloFromRust() async {
+    final receivedText = await api.helloFromRust(count: 2);
+    if (mounted) setState(() => rustHiText = receivedText);
+  }
 }
