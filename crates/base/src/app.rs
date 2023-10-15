@@ -1,8 +1,8 @@
 use git2::{DiffFormat, Repository, Status};
-use std::sync::Mutex;
+use std::sync::RwLock;
 
 lazy_static::lazy_static! {
-    pub static ref APP: Mutex<App> = Mutex::new(App::default());
+    pub static ref APP: RwLock<App> = RwLock::new(App::default());
 }
 
 #[derive(Default)]

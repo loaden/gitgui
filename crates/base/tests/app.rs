@@ -8,8 +8,8 @@ fn test_app_run() {
 
     let handle = thread::spawn(|| {
         base::init_app();
-        let mut app = APP.lock().unwrap();
-        app.fetch_status();
+        let app = APP.read().unwrap();
+        app.get_diff();
         app.log("thread");
         thread::sleep(Duration::from_secs(2));
     });
