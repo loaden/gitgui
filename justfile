@@ -15,6 +15,10 @@ export AARCH64_LINUX_ANDROID_OPENSSL_LIB_DIR := join(openssl, "arm64-v8a")
 export ARMV7_LINUX_ANDROIDEABI_OPENSSL_LIB_DIR := join(openssl, "armeabi-v7a")
 export X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR := join(openssl, "x86_64")
 
+# iOS
+openssl_ios := clean(join(home, ".dev/sdk/openssl-ios"))
+export X86_64_APPLE_IOS_OPENSSL_INCLUDE_DIR := join(openssl_ios, "include")
+export X86_64_APPLE_IOS_OPENSSL_LIB_DIR := join(openssl_ios, "x86_64")
 
 default:
   flutter run
