@@ -7,10 +7,13 @@ home := if os_family() == "windows" { env_var('USERPROFILE') } else { env_var('H
 
 # Android
 export ANDROID_ABI_DEBUG := env_var_or_default('ANDROID_ABI_DEBUG', 'x86_64')
-export OPENSSL_DIR := clean(join(home, ".dev/sdk/openssl"))
-export AARCH64_LINUX_ANDROID_OPENSSL_LIB_DIR := join(OPENSSL_DIR, "arm64-v8a")
-export X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR := join(OPENSSL_DIR, "x86_64")
-export ARMV7_LINUX_ANDROIDEABI_OPENSSL_LIB_DIR := join(OPENSSL_DIR, "armeabi-v7a")
+openssl := clean(join(home, ".dev/sdk/openssl"))
+export AARCH64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR := join(openssl, "include")
+export ARMV7_LINUX_ANDROIDEABI_OPENSSL_INCLUDE_DIR := join(openssl, "include")
+export X86_64_LINUX_ANDROID_OPENSSL_INCLUDE_DIR := join(openssl, "include")
+export AARCH64_LINUX_ANDROID_OPENSSL_LIB_DIR := join(openssl, "arm64-v8a")
+export ARMV7_LINUX_ANDROIDEABI_OPENSSL_LIB_DIR := join(openssl, "armeabi-v7a")
+export X86_64_LINUX_ANDROID_OPENSSL_LIB_DIR := join(openssl, "x86_64")
 
 
 default:
