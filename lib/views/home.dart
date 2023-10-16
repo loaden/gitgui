@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String rustHiText = "";
+  String? rustHiText;
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(rustHiText)),
+      appBar: AppBar(title: Text(rustHiText ?? '')),
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
