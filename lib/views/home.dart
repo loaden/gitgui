@@ -11,18 +11,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String? rustHiText;
+  String? _rustHiText;
+  final TextEditingController _mainController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _callHelloFromRust();
+    _callFromRust();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(rustHiText ?? '')),
+      appBar: AppBar(title: Text(_rustHiText ?? 'Gitgui')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -34,24 +35,33 @@ class _HomeState extends State<Home> {
                 maxHeight: double.infinity,
                 maxWidth: 200,
               ),
-              child: const Column(
+              child: Column(
                 children: [
-                  TextField(),
-                  TextField(),
-                  TextField(),
-                  TextField(),
-                  TextField(),
+                  const TextField(),
+                  const TextField(),
+                  const TextField(),
+                  const TextField(),
+                  const TextField(),
+                  const SizedBox(height: 20),
+                  navRoute(context),
                 ],
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: Column(
-                children: [
-                  const TextField(),
-                  const SizedBox(height: 20),
-                  navRoute(context),
-                ],
+              child: TextField(
+                controller: _mainController,
+                readOnly: true,
+                minLines: null,
+                maxLines: null,
+                expands: true,
+                decoration: const InputDecoration(
+                  labelText: 'Diff',
+                  helperText: "内容显示区",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                ),
               ),
             )
           ],
@@ -76,8 +86,14 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> _callHelloFromRust() async {
+  Future<void> _callFromRust() async {
     final receivedText = await api.helloFromRust(count: 2);
-    if (mounted) setState(() => rustHiText = receivedText);
+    final diff = await api.getDiff();
+    if (mounted) {
+      setState(() {
+        _mainController.text = diff;
+        _rustHiText = receivedText;
+      });
+    }
   }
 }

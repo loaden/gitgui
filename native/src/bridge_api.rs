@@ -58,6 +58,16 @@ fn wire_hello_from_rust_impl(
         },
     )
 }
+fn wire_get_diff_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
+        WrapInfo {
+            debug_name: "get_diff",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(get_diff()),
+    )
+}
 fn wire_app_run_impl(port_: MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
@@ -120,6 +130,11 @@ mod io {
     #[no_mangle]
     pub extern "C" fn wire_hello_from_rust(port_: i64, count: usize) {
         wire_hello_from_rust_impl(port_, count)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_get_diff(port_: i64) {
+        wire_get_diff_impl(port_)
     }
 
     #[no_mangle]

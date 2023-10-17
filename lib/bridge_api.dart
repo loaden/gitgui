@@ -20,6 +20,10 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kHelloFromRustConstMeta;
 
+  Future<String> getDiff({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetDiffConstMeta;
+
   Future<void> appRun({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
@@ -71,6 +75,23 @@ class NativeImpl implements Native {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "hello_from_rust",
         argNames: ["count"],
+      );
+
+  Future<String> getDiff({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_diff(port_),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: null,
+      constMeta: kGetDiffConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetDiffConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_diff",
+        argNames: [],
       );
 
   Future<void> appRun({dynamic hint}) {
@@ -264,6 +285,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
           'wire_hello_from_rust');
   late final _wire_hello_from_rust =
       _wire_hello_from_rustPtr.asFunction<void Function(int, int)>();
+
+  void wire_get_diff(
+    int port_,
+  ) {
+    return _wire_get_diff(
+      port_,
+    );
+  }
+
+  late final _wire_get_diffPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_get_diff');
+  late final _wire_get_diff =
+      _wire_get_diffPtr.asFunction<void Function(int)>();
 
   void wire_app_run(
     int port_,
