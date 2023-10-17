@@ -23,36 +23,39 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(rustHiText ?? '')),
-      body: Row(
-        children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 50,
-              minWidth: 150,
-              maxHeight: double.infinity,
-              maxWidth: 260,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                minHeight: 50,
+                minWidth: 100,
+                maxHeight: double.infinity,
+                maxWidth: 200,
+              ),
+              child: const Column(
+                children: [
+                  TextField(),
+                  TextField(),
+                  TextField(),
+                  TextField(),
+                  TextField(),
+                ],
+              ),
             ),
-            child: const Column(
-              children: [
-                TextField(),
-                TextField(),
-                TextField(),
-                TextField(),
-                TextField(),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              children: [
-                const TextField(),
-                const SizedBox(height: 20),
-                navRoute(context),
-              ],
-            ),
-          )
-        ],
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                children: [
+                  const TextField(),
+                  const SizedBox(height: 20),
+                  navRoute(context),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
