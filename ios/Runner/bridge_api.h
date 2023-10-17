@@ -21,22 +21,16 @@ uintptr_t new_dart_opaque(Dart_Handle handle);
 
 intptr_t init_frb_dart_api_dl(void *obj);
 
-void wire_times_from_rust(int64_t port_, uintptr_t left, uintptr_t right);
-
-void wire_hello_from_rust(int64_t port_, uintptr_t count);
+void wire_app_run(int64_t port_);
 
 void wire_get_diff(int64_t port_);
-
-void wire_app_run(int64_t port_);
 
 void free_WireSyncReturn(WireSyncReturn ptr);
 
 static int64_t dummy_method_to_enforce_bundling(void) {
     int64_t dummy_var = 0;
-    dummy_var ^= ((int64_t) (void*) wire_times_from_rust);
-    dummy_var ^= ((int64_t) (void*) wire_hello_from_rust);
-    dummy_var ^= ((int64_t) (void*) wire_get_diff);
     dummy_var ^= ((int64_t) (void*) wire_app_run);
+    dummy_var ^= ((int64_t) (void*) wire_get_diff);
     dummy_var ^= ((int64_t) (void*) free_WireSyncReturn);
     dummy_var ^= ((int64_t) (void*) store_dart_post_cobject);
     dummy_var ^= ((int64_t) (void*) get_dart_object);

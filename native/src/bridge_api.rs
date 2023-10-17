@@ -22,40 +22,14 @@ use std::sync::Arc;
 
 // Section: wire functions
 
-fn wire_times_from_rust_impl(
-    port_: MessagePort,
-    left: impl Wire2Api<usize> + UnwindSafe,
-    right: impl Wire2Api<usize> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, usize, _>(
+fn wire_app_run_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "times_from_rust",
+            debug_name: "app_run",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
-        move || {
-            let api_left = left.wire2api();
-            let api_right = right.wire2api();
-            move |task_callback| {
-                Result::<_, ()>::Ok(times_from_rust(api_left, api_right))
-            }
-        },
-    )
-}
-fn wire_hello_from_rust_impl(
-    port_: MessagePort,
-    count: impl Wire2Api<usize> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "hello_from_rust",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_count = count.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(hello_from_rust(api_count))
-        },
+        move || move |task_callback| Result::<_, ()>::Ok(app_run()),
     )
 }
 fn wire_get_diff_impl(port_: MessagePort) {
@@ -66,16 +40,6 @@ fn wire_get_diff_impl(port_: MessagePort) {
             mode: FfiCallMode::Normal,
         },
         move || move |task_callback| Result::<_, ()>::Ok(get_diff()),
-    )
-}
-fn wire_app_run_impl(port_: MessagePort) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
-        WrapInfo {
-            debug_name: "app_run",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || move |task_callback| Result::<_, ()>::Ok(app_run()),
     )
 }
 // Section: wrapper structs
@@ -100,11 +64,6 @@ where
         (!self.is_null()).then(|| self.wire2api())
     }
 }
-impl Wire2Api<usize> for usize {
-    fn wire2api(self) -> usize {
-        self
-    }
-}
 // Section: impl IntoDart
 
 // Section: executor
@@ -119,27 +78,13 @@ mod io {
     // Section: wire functions
 
     #[no_mangle]
-    pub extern "C" fn wire_times_from_rust(
-        port_: i64,
-        left: usize,
-        right: usize,
-    ) {
-        wire_times_from_rust_impl(port_, left, right)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn wire_hello_from_rust(port_: i64, count: usize) {
-        wire_hello_from_rust_impl(port_, count)
+    pub extern "C" fn wire_app_run(port_: i64) {
+        wire_app_run_impl(port_)
     }
 
     #[no_mangle]
     pub extern "C" fn wire_get_diff(port_: i64) {
         wire_get_diff_impl(port_)
-    }
-
-    #[no_mangle]
-    pub extern "C" fn wire_app_run(port_: i64) {
-        wire_app_run_impl(port_)
     }
 
     // Section: allocate functions

@@ -5,12 +5,35 @@ lazy_static::lazy_static! {
     pub static ref APP: RwLock<App> = RwLock::new(App::default());
 }
 
+#[derive(Debug, Copy, Clone)]
+pub enum DiffLineType {
+    None,
+    Header,
+    Add,
+    Delete,
+}
+
+impl Default for DiffLineType {
+    fn default() -> Self {
+        DiffLineType::None
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct DiffLine {
+    content: String,
+    line_type: DiffLineType,
+}
+
+#[derive(Debug, Default)]
+pub struct Diff(Vec<DiffLine>);
+
 #[derive(Default)]
 pub struct App {
     status_items: Vec<String>,
     status_select: Option<usize>,
     index_items: Vec<String>,
-    diff: String,
+    diff: Diff,
     do_quit: bool,
     count: u32,
 }
@@ -73,11 +96,11 @@ impl App {
             None
         };
 
-        self.diff = self.get_diff();
+        self.diff = self._get_diff();
         self.count += 1;
     }
 
-    pub fn get_diff(&self) -> String {
+    fn _get_diff(&self) -> Diff {
         let repo = Repository::init("./").unwrap();
 
         if repo.is_bare() {
@@ -86,15 +109,30 @@ impl App {
 
         let diff = repo.diff_index_to_workdir(None, None).unwrap();
 
-        let mut res = String::new();
+        let mut res = Vec::new();
 
         diff.print(DiffFormat::Patch, |_delta, _hunk, line| {
-            let content = String::from_utf8_lossy(line.content());
-            res.push_str(content.chars().as_str());
+            let line_type = match line.origin() {
+                'H' => DiffLineType::Header,
+                '<' | '-' => DiffLineType::Delete,
+                '>' | '+' => DiffLineType::Add,
+                _ => DiffLineType::None,
+            };
+
+            let diff_line = DiffLine {
+                content: String::from_utf8_lossy(line.content()).to_string(),
+                line_type,
+            };
+
+            res.push(diff_line);
             true
         })
         .unwrap();
 
-        res
+        Diff(res)
+    }
+
+    pub fn get_diff(&self) -> String {
+        format!("{:#?}", self.diff.0)
     }
 }

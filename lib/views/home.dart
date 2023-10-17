@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gitgui/widget/button.dart';
 import 'package:gitgui/route/route.dart' as route;
@@ -11,19 +13,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String? _rustHiText;
   final TextEditingController _mainController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _callFromRust();
+
+    _rustAppRun();
+    sleep(Duration.zero);
+    _rustGetDiff();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_rustHiText ?? 'Gitgui')),
+      appBar: AppBar(title: const Text('Gitgui')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -86,14 +90,14 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> _callFromRust() async {
-    final receivedText = await api.helloFromRust(count: 2);
+  Future<void> _rustAppRun() async {
+    await api.appRun();
+  }
+
+  Future<void> _rustGetDiff() async {
     final diff = await api.getDiff();
     if (mounted) {
-      setState(() {
-        _mainController.text = diff;
-        _rustHiText = receivedText;
-      });
+      setState(() => _mainController.text = diff);
     }
   }
 }

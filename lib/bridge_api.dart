@@ -11,22 +11,13 @@ import 'package:uuid/uuid.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Native {
-  Future<int> timesFromRust(
-      {required int left, required int right, dynamic hint});
+  Future<void> appRun({dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kTimesFromRustConstMeta;
-
-  Future<String> helloFromRust({required int count, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kHelloFromRustConstMeta;
+  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
 
   Future<String> getDiff({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetDiffConstMeta;
-
-  Future<void> appRun({dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
 }
 
 class NativeImpl implements Native {
@@ -38,43 +29,21 @@ class NativeImpl implements Native {
   factory NativeImpl.wasm(FutureOr<WasmModule> module) =>
       NativeImpl(module as ExternalLibrary);
   NativeImpl.raw(this._platform);
-  Future<int> timesFromRust(
-      {required int left, required int right, dynamic hint}) {
-    var arg0 = api2wire_usize(left);
-    var arg1 = api2wire_usize(right);
+  Future<void> appRun({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_times_from_rust(port_, arg0, arg1),
-      parseSuccessData: _wire2api_usize,
+      callFfi: (port_) => _platform.inner.wire_app_run(port_),
+      parseSuccessData: _wire2api_unit,
       parseErrorData: null,
-      constMeta: kTimesFromRustConstMeta,
-      argValues: [left, right],
+      constMeta: kAppRunConstMeta,
+      argValues: [],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kTimesFromRustConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "times_from_rust",
-        argNames: ["left", "right"],
-      );
-
-  Future<String> helloFromRust({required int count, dynamic hint}) {
-    var arg0 = api2wire_usize(count);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_hello_from_rust(port_, arg0),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: null,
-      constMeta: kHelloFromRustConstMeta,
-      argValues: [count],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kHelloFromRustConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "hello_from_rust",
-        argNames: ["count"],
+        debugName: "app_run",
+        argNames: [],
       );
 
   Future<String> getDiff({dynamic hint}) {
@@ -91,23 +60,6 @@ class NativeImpl implements Native {
   FlutterRustBridgeTaskConstMeta get kGetDiffConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "get_diff",
-        argNames: [],
-      );
-
-  Future<void> appRun({dynamic hint}) {
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_app_run(port_),
-      parseSuccessData: _wire2api_unit,
-      parseErrorData: null,
-      constMeta: kAppRunConstMeta,
-      argValues: [],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "app_run",
         argNames: [],
       );
 
@@ -131,18 +83,10 @@ class NativeImpl implements Native {
   void _wire2api_unit(dynamic raw) {
     return;
   }
-
-  int _wire2api_usize(dynamic raw) {
-    return castInt(raw);
-  }
 }
 
 // Section: api2wire
 
-@protected
-int api2wire_usize(int raw) {
-  return raw;
-}
 // Section: finalizer
 
 class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
@@ -251,40 +195,17 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
-  void wire_times_from_rust(
+  void wire_app_run(
     int port_,
-    int left,
-    int right,
   ) {
-    return _wire_times_from_rust(
+    return _wire_app_run(
       port_,
-      left,
-      right,
     );
   }
 
-  late final _wire_times_from_rustPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.UintPtr, ffi.UintPtr)>>('wire_times_from_rust');
-  late final _wire_times_from_rust =
-      _wire_times_from_rustPtr.asFunction<void Function(int, int, int)>();
-
-  void wire_hello_from_rust(
-    int port_,
-    int count,
-  ) {
-    return _wire_hello_from_rust(
-      port_,
-      count,
-    );
-  }
-
-  late final _wire_hello_from_rustPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
-          'wire_hello_from_rust');
-  late final _wire_hello_from_rust =
-      _wire_hello_from_rustPtr.asFunction<void Function(int, int)>();
+  late final _wire_app_runPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_app_run');
+  late final _wire_app_run = _wire_app_runPtr.asFunction<void Function(int)>();
 
   void wire_get_diff(
     int port_,
@@ -299,18 +220,6 @@ class NativeWire implements FlutterRustBridgeWireBase {
           'wire_get_diff');
   late final _wire_get_diff =
       _wire_get_diffPtr.asFunction<void Function(int)>();
-
-  void wire_app_run(
-    int port_,
-  ) {
-    return _wire_app_run(
-      port_,
-    );
-  }
-
-  late final _wire_app_runPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_app_run');
-  late final _wire_app_run = _wire_app_runPtr.asFunction<void Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
