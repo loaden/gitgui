@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
               minHeight: 50,
               minWidth: 150,
               maxHeight: double.infinity,
-              maxWidth: 150,
+              maxWidth: 260,
             ),
             child: const Column(
               children: [
@@ -42,25 +42,15 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          const SizedBox(width: 20),
-          Column(
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 60,
-                  minWidth: 200,
-                  maxHeight: double.infinity,
-                  maxWidth: 300,
-                ),
-                child: const TextField(),
-              ),
-              const SizedBox(
-                width: 180,
-                child: TextField(),
-              ),
-              const SizedBox(height: 20),
-              navRoute(context),
-            ],
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              children: [
+                const TextField(),
+                const SizedBox(height: 20),
+                navRoute(context),
+              ],
+            ),
           )
         ],
       ),
