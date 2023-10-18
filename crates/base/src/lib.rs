@@ -8,4 +8,11 @@ pub fn init_app() {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+    use super::*;
+
+    #[test]
+    fn app_run() {
+        init_app();
+    }
+}
