@@ -33,7 +33,7 @@ fn wire_app_run_impl(port_: MessagePort) {
     )
 }
 fn wire_get_diff_impl(port_: MessagePort) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<mirror_DiffLine>, _>(
         WrapInfo {
             debug_name: "get_diff",
             port: Some(port_),
@@ -44,8 +44,27 @@ fn wire_get_diff_impl(port_: MessagePort) {
 }
 // Section: wrapper structs
 
+#[derive(Clone)]
+pub struct mirror_DiffLine(DiffLine);
+
+#[derive(Clone)]
+pub struct mirror_DiffLineType(DiffLineType);
+
 // Section: static checks
 
+const _: fn() = || {
+    {
+        let DiffLine = None::<DiffLine>.unwrap();
+        let _: String = DiffLine.content;
+        let _: DiffLineType = DiffLine.line_type;
+    }
+    match None::<DiffLineType>.unwrap() {
+        DiffLineType::None => {}
+        DiffLineType::Header => {}
+        DiffLineType::Add => {}
+        DiffLineType::Delete => {}
+    }
+};
 // Section: allocate functions
 
 // Section: related functions
@@ -65,6 +84,40 @@ where
     }
 }
 // Section: impl IntoDart
+
+impl support::IntoDart for mirror_DiffLine {
+    fn into_dart(self) -> support::DartAbi {
+        vec![
+            self.0.content.into_into_dart().into_dart(),
+            self.0.line_type.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for mirror_DiffLine {}
+impl rust2dart::IntoIntoDart<mirror_DiffLine> for DiffLine {
+    fn into_into_dart(self) -> mirror_DiffLine {
+        mirror_DiffLine(self)
+    }
+}
+
+impl support::IntoDart for mirror_DiffLineType {
+    fn into_dart(self) -> support::DartAbi {
+        match self.0 {
+            DiffLineType::None => 0,
+            DiffLineType::Header => 1,
+            DiffLineType::Add => 2,
+            DiffLineType::Delete => 3,
+        }
+        .into_dart()
+    }
+}
+impl support::IntoDartExceptPrimitive for mirror_DiffLineType {}
+impl rust2dart::IntoIntoDart<mirror_DiffLineType> for DiffLineType {
+    fn into_into_dart(self) -> mirror_DiffLineType {
+        mirror_DiffLineType(self)
+    }
+}
 
 // Section: executor
 

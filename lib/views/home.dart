@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gitgui/bridge_api.dart';
 import 'package:gitgui/widget/button.dart';
 import 'package:gitgui/route/route.dart' as route;
 import 'package:gitgui/native.dart';
@@ -97,7 +98,11 @@ class _HomeState extends State<Home> {
   Future<void> _rustGetDiff() async {
     final diff = await api.getDiff();
     if (mounted) {
-      setState(() => _mainController.text = diff);
+      setState(() {
+        for (var e in diff) {
+          _mainController.text += e.content;
+        }
+      });
     }
   }
 }

@@ -6,7 +6,7 @@ lazy_static::lazy_static! {
     pub static ref APP: RwLock<App> = RwLock::new(App::default());
 }
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 pub enum DiffLineType {
     None,
     Header,
@@ -20,13 +20,13 @@ impl Default for DiffLineType {
     }
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Default, PartialEq, Clone)]
 pub struct DiffLine {
-    content: String,
-    line_type: DiffLineType,
+    pub content: String,
+    pub line_type: DiffLineType,
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Default, PartialEq)]
 pub struct Diff(Vec<DiffLine>);
 
 #[derive(Default)]
@@ -110,8 +110,8 @@ impl App {
         }
     }
 
-    pub fn get_diff(&self) -> String {
-        format!("{:#?}", self.diff.0)
+    pub fn get_diff(&self) -> Vec<DiffLine> {
+        self.diff.0.clone()
     }
 }
 
@@ -154,10 +154,9 @@ fn get_diff(p: &Path) -> Diff {
     Diff(res)
 }
 
-
 #[cfg(test)]
 mod tests {
-    use  super::*;
+    use super::*;
 
     #[test]
     fn test_diff() {

@@ -15,9 +15,26 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
 
-  Future<String> getDiff({dynamic hint});
+  Future<List<DiffLine>> getDiff({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetDiffConstMeta;
+}
+
+class DiffLine {
+  final String content;
+  final DiffLineType lineType;
+
+  const DiffLine({
+    required this.content,
+    required this.lineType,
+  });
+}
+
+enum DiffLineType {
+  None,
+  Header,
+  Add,
+  Delete,
 }
 
 class NativeImpl implements Native {
@@ -46,10 +63,10 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  Future<String> getDiff({dynamic hint}) {
+  Future<List<DiffLine>> getDiff({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_get_diff(port_),
-      parseSuccessData: _wire2api_String,
+      parseSuccessData: _wire2api_list_diff_line,
       parseErrorData: null,
       constMeta: kGetDiffConstMeta,
       argValues: [],
@@ -70,6 +87,28 @@ class NativeImpl implements Native {
 
   String _wire2api_String(dynamic raw) {
     return raw as String;
+  }
+
+  DiffLine _wire2api_diff_line(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return DiffLine(
+      content: _wire2api_String(arr[0]),
+      lineType: _wire2api_diff_line_type(arr[1]),
+    );
+  }
+
+  DiffLineType _wire2api_diff_line_type(dynamic raw) {
+    return DiffLineType.values[raw as int];
+  }
+
+  int _wire2api_i32(dynamic raw) {
+    return raw as int;
+  }
+
+  List<DiffLine> _wire2api_list_diff_line(dynamic raw) {
+    return (raw as List<dynamic>).map(_wire2api_diff_line).toList();
   }
 
   int _wire2api_u8(dynamic raw) {
