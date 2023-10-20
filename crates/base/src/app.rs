@@ -1,5 +1,6 @@
 use git2::{DiffFormat, Repository, Status};
-use std::path::Path;
+use std::env;
+use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 
 lazy_static::lazy_static! {
@@ -48,11 +49,28 @@ impl App {
     pub fn log(&self, msg: &str) {
         println!("COUNT: {}, {}", self.count, msg);
     }
+
+    pub fn repo() -> PathBuf {
+        let mut exec = env::current_exe().unwrap();
+        println!("BEFORE: {:#?}", exec);
+        loop {
+            exec.push(".git");
+            if exec.exists() || exec.parent().is_none() {
+                exec.pop(); // .git
+                break;
+            }
+            exec.pop(); // .git
+            exec.pop();
+        }
+
+        println!("AFTER: {:#?}", exec);
+        exec
+    }
 }
 
 impl App {
     pub fn fetch_status(&mut self) {
-        let repo = match Repository::init("./") {
+        let repo = match Repository::init(App::repo()) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to init: {}", e),
         };
@@ -116,7 +134,7 @@ impl App {
 }
 
 fn get_diff(p: &Path) -> Diff {
-    let repo = Repository::init("./").unwrap();
+    let repo = Repository::init(App::repo()).unwrap();
 
     if repo.is_bare() {
         panic!("bare repo")
