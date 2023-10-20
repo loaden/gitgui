@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<InlineSpan> _mainTextSpans = <InlineSpan>[];
+  List<DiffLine> _mainSpansList = [];
 
   @override
   void initState() {
@@ -60,7 +60,25 @@ class _HomeState extends State<Home> {
             Expanded(
               child: RichText(
                 text: TextSpan(
-                  children: List.from(_mainTextSpans),
+                  children: List.generate(_mainSpansList.length, (index) {
+                    DiffLine item = _mainSpansList[index];
+                    return TextSpan(
+                      text: item.content,
+                      style: TextStyle(
+                        color: () {
+                          if (item.lineType == DiffLineType.Add) {
+                            return Colors.green;
+                          } else if (item.lineType == DiffLineType.Delete) {
+                            return Colors.red;
+                          } else if (item.lineType == DiffLineType.Header) {
+                            return Colors.blue;
+                          } else {
+                            return Colors.grey;
+                          }
+                        }(),
+                      ),
+                    );
+                  }),
                 ),
               ),
             ),
@@ -92,30 +110,8 @@ class _HomeState extends State<Home> {
   Future<void> _rustGetDiff() async {
     final diff = await api.getDiff();
     if (mounted) {
-      if (diff.isNotEmpty) _mainTextSpans.clear();
-      setState(() {
-        for (var e in diff) {
-          _mainTextSpans.add(
-            TextSpan(
-              text: e.content.toString(),
-              style: TextStyle(
-                color: () {
-                  if (e.lineType == DiffLineType.Add) {
-                    return Colors.green;
-                  } else if (e.lineType == DiffLineType.Delete) {
-                    return Colors.red;
-                  } else if (e.lineType == DiffLineType.Header) {
-                    return Colors.blue;
-                  } else {
-                    return Colors.grey;
-                  }
-                }(),
-              ),
-            ),
-          );
-        }
-      });
-      print(_mainTextSpans);
+      setState(() => _mainSpansList = diff);
+      print(_mainSpansList);
     }
   }
 }
