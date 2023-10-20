@@ -14,6 +14,13 @@ if("$ENV{BUILD_TYPE}" STREQUAL "Debug")
   set(TARGET_DIR "debug")
 endif()
 
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
+	if("$ENV{BUILD_TYPE}" STREQUAL "")
+    set(CARGO_BUILD_TYPE "")
+    set(TARGET_DIR "debug")
+  endif()
+endif()
+
 if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
   set(NATIVE_LIBRARY "../target/${TARGET_DIR}/libnative.so")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
