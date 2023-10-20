@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gitgui/bridge_api.dart';
-import 'package:gitgui/widget/button.dart';
 import 'package:gitgui/route/route.dart' as route;
 import 'package:gitgui/native.dart';
 
@@ -14,7 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final TextEditingController _mainController = TextEditingController();
+  final List<InlineSpan> _mainTextSpans = <InlineSpan>[];
 
   @override
   void initState() {
@@ -48,27 +47,23 @@ class _HomeState extends State<Home> {
                   const TextField(),
                   const TextField(),
                   const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () => _rustGetDiff(),
+                    child: const Text("Update"),
+                  ),
+                  const SizedBox(height: 20),
                   navRoute(context),
                 ],
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: TextField(
-                controller: _mainController,
-                readOnly: true,
-                minLines: null,
-                maxLines: null,
-                expands: true,
-                decoration: const InputDecoration(
-                  labelText: 'Diff',
-                  helperText: "内容显示区",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
+              child: RichText(
+                text: TextSpan(
+                  children: List.from(_mainTextSpans),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -79,14 +74,13 @@ class _HomeState extends State<Home> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Button(
-          onPressed: (b) => Navigator.of(context).pushNamed(route.configPage),
+        ElevatedButton(
+          onPressed: () async {
+            var r = await Navigator.of(context).pushNamed(route.aboutPage);
+            print(r);
+          },
+          child: const Text('About'),
         ),
-        const SizedBox(width: 10),
-        Button(onPressed: (b) async {
-          var r = await Navigator.of(context).pushNamed(route.aboutPage);
-          print(r);
-        }),
       ],
     );
   }
@@ -98,11 +92,30 @@ class _HomeState extends State<Home> {
   Future<void> _rustGetDiff() async {
     final diff = await api.getDiff();
     if (mounted) {
+      if (diff.isNotEmpty) _mainTextSpans.clear();
       setState(() {
         for (var e in diff) {
-          _mainController.text += e.content;
+          _mainTextSpans.add(
+            TextSpan(
+              text: e.content.toString(),
+              style: TextStyle(
+                color: () {
+                  if (e.lineType == DiffLineType.Add) {
+                    return Colors.green;
+                  } else if (e.lineType == DiffLineType.Delete) {
+                    return Colors.red;
+                  } else if (e.lineType == DiffLineType.Header) {
+                    return Colors.blue;
+                  } else {
+                    return Colors.grey;
+                  }
+                }(),
+              ),
+            ),
+          );
         }
       });
+      print(_mainTextSpans);
     }
   }
 }
