@@ -60,25 +60,7 @@ class _HomeState extends State<Home> {
             Expanded(
               child: RichText(
                 text: TextSpan(
-                  children: List.generate(_mainSpansList.length, (index) {
-                    DiffLine item = _mainSpansList[index];
-                    return TextSpan(
-                      text: item.content,
-                      style: TextStyle(
-                        color: () {
-                          if (item.lineType == DiffLineType.Add) {
-                            return Colors.green;
-                          } else if (item.lineType == DiffLineType.Delete) {
-                            return Colors.red;
-                          } else if (item.lineType == DiffLineType.Header) {
-                            return Colors.blue;
-                          } else {
-                            return Colors.grey;
-                          }
-                        }(),
-                      ),
-                    );
-                  }),
+                  children: _mainTextSpans(),
                 ),
               ),
             ),
@@ -86,6 +68,28 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  List<InlineSpan> _mainTextSpans() {
+    return List.generate(_mainSpansList.length, (index) {
+      DiffLine item = _mainSpansList[index];
+      return TextSpan(
+        text: item.content,
+        style: TextStyle(
+          color: () {
+            if (item.lineType == DiffLineType.Add) {
+              return Colors.green;
+            } else if (item.lineType == DiffLineType.Delete) {
+              return Colors.red;
+            } else if (item.lineType == DiffLineType.Header) {
+              return Colors.blue;
+            } else {
+              return Colors.grey;
+            }
+          }(),
+        ),
+      );
+    });
   }
 
   Row navRoute(BuildContext context) {
