@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
                     child: const Text("Update"),
                   ),
                   const SizedBox(height: 20),
-                  navRoute(context),
+                  _navRoute(context),
                 ],
               ),
             ),
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Row navRoute(BuildContext context) {
+  Row _navRoute(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -115,7 +115,6 @@ class _HomeState extends State<Home> {
     final diff = await api.getDiff();
     if (mounted) {
       setState(() => _mainSpansList = diff);
-      print(_mainSpansList);
     }
   }
 }

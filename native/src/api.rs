@@ -1,6 +1,6 @@
 use base;
 pub use base::app::{DiffLine, DiffLineType};
-use flutter_rust_bridge::{frb, ZeroCopyBuffer};
+use flutter_rust_bridge::frb;
 
 pub fn app_run() {
     base::init_app();
