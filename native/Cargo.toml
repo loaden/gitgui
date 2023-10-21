@@ -12,5 +12,5 @@ crate-type = ["lib", "cdylib", "staticlib"]
 flutter_rust_bridge_codegen = "=1.82"
 
 [dependencies]
-flutter_rust_bridge = "=1.82"
 base = { path = "../crates/base" }
+flutter_rust_bridge = "=1.82"
