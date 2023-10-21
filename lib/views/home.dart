@@ -18,10 +18,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
     _rustAppRun();
-    sleep(Duration.zero);
-    _rustGetDiff();
   }
 
   @override
@@ -48,8 +45,18 @@ class _HomeState extends State<Home> {
                   const TextField(),
                   const SizedBox(height: 20),
                   ElevatedButton(
+                    onPressed: () => _rustFetchStatus(),
+                    child: const Text("Fetch Status"),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => _rustUpdateDiff(),
+                    child: const Text("Update Diff"),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
                     onPressed: () => _rustGetDiff(),
-                    child: const Text("Update"),
+                    child: const Text("Get Diff"),
                   ),
                   const SizedBox(height: 20),
                   _navRoute(context),
@@ -109,6 +116,18 @@ class _HomeState extends State<Home> {
 
   Future<void> _rustAppRun() async {
     await api.appRun();
+  }
+
+  Future<void> _rustFetchStatus() async {
+    await api.fetchStatus();
+  }
+
+  void _rustFetchStatus2() {
+    api.fetchStatus();
+  }
+
+  Future<void> _rustUpdateDiff() async {
+    await api.updateDiff();
   }
 
   Future<void> _rustGetDiff() async {

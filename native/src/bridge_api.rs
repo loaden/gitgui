@@ -32,6 +32,26 @@ fn wire_app_run_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(app_run()),
     )
 }
+fn wire_fetch_status_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+        WrapInfo {
+            debug_name: "fetch_status",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(fetch_status()),
+    )
+}
+fn wire_update_diff_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+        WrapInfo {
+            debug_name: "update_diff",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(update_diff()),
+    )
+}
 fn wire_get_diff_impl(port_: MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<mirror_DiffLine>, _>(
         WrapInfo {
@@ -133,6 +153,16 @@ mod io {
     #[no_mangle]
     pub extern "C" fn wire_app_run(port_: i64) {
         wire_app_run_impl(port_)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_fetch_status(port_: i64) {
+        wire_fetch_status_impl(port_)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_update_diff(port_: i64) {
+        wire_update_diff_impl(port_)
     }
 
     #[no_mangle]

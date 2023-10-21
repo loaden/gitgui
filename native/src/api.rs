@@ -20,7 +20,14 @@ pub struct _DiffLine {
     pub line_type: DiffLineType,
 }
 
+pub fn fetch_status() {
+    base::fetch_status();
+}
+
+pub fn update_diff() {
+    base::update_diff();
+}
+
 pub fn get_diff() -> Vec<DiffLine> {
-    let app = base::APP.read().unwrap();
-    app.get_diff()
+    base::get_diff()
 }

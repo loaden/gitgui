@@ -46,8 +46,8 @@ impl App {
         self.do_quit
     }
 
-    pub fn log(&self, msg: &str) {
-        println!("COUNT: {}, {}", self.count, msg);
+    pub fn log(&self, msg: String) {
+        println!("COUNT: {}, MESSAGE: {}", self.count, msg);
     }
 
     pub fn repo() -> PathBuf {
@@ -111,12 +111,11 @@ impl App {
         } else {
             None
         };
-
-        self.update_diff();
-        self.count += 1;
     }
 
-    fn update_diff(&mut self) {
+    pub fn update_diff(&mut self) {
+        self.count += 1;
+
         let new_diff = match self.status_select {
             Some(i) => get_diff(Path::new(self.status_items[i].as_str())),
             None => Diff::default(),

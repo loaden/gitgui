@@ -15,6 +15,14 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
 
+  Future<void> fetchStatus({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFetchStatusConstMeta;
+
+  Future<void> updateDiff({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kUpdateDiffConstMeta;
+
   Future<List<DiffLine>> getDiff({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetDiffConstMeta;
@@ -60,6 +68,40 @@ class NativeImpl implements Native {
   FlutterRustBridgeTaskConstMeta get kAppRunConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "app_run",
+        argNames: [],
+      );
+
+  Future<void> fetchStatus({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_fetch_status(port_),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kFetchStatusConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFetchStatusConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "fetch_status",
+        argNames: [],
+      );
+
+  Future<void> updateDiff({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_update_diff(port_),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kUpdateDiffConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kUpdateDiffConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "update_diff",
         argNames: [],
       );
 
@@ -245,6 +287,34 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_app_runPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_app_run');
   late final _wire_app_run = _wire_app_runPtr.asFunction<void Function(int)>();
+
+  void wire_fetch_status(
+    int port_,
+  ) {
+    return _wire_fetch_status(
+      port_,
+    );
+  }
+
+  late final _wire_fetch_statusPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_fetch_status');
+  late final _wire_fetch_status =
+      _wire_fetch_statusPtr.asFunction<void Function(int)>();
+
+  void wire_update_diff(
+    int port_,
+  ) {
+    return _wire_update_diff(
+      port_,
+    );
+  }
+
+  late final _wire_update_diffPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_update_diff');
+  late final _wire_update_diff =
+      _wire_update_diffPtr.asFunction<void Function(int)>();
 
   void wire_get_diff(
     int port_,

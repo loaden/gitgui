@@ -1,19 +1,44 @@
 pub mod app;
-pub use app::{App, APP};
+pub use app::{App, DiffLine, APP};
 
 pub fn init_app() {
+    let app = APP.read().unwrap();
+    app.log("INIT DONE!".to_string());
+}
+
+pub fn fetch_status() {
     let mut app = APP.write().unwrap();
     app.fetch_status();
-    app.log("main");
-    println!("LEN: {}", app.get_diff().len());
+    app.log(format!("fetch_status: {}", app.get_diff().len()));
+}
+
+pub fn update_diff() {
+    let mut app = APP.write().unwrap();
+    app.update_diff();
+    app.log(format!("update_diff: {}", app.get_diff().len()));
+}
+
+pub fn get_diff() -> Vec<DiffLine> {
+    let app = APP.read().unwrap();
+    app.log(format!("get_diff: {}", app.get_diff().len()));
+    app.get_diff()
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    #[test]
+    fn init_app() {
+        super::init_app();
+    }
 
     #[test]
-    fn app_run() {
-        init_app();
+    fn fetch_status() {
+        super::fetch_status();
+    }
+
+    #[test]
+    fn update_diff() {
+        super::fetch_status();
+        super::update_diff();
     }
 }
