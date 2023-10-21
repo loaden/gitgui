@@ -15,6 +15,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<DiffLine> _mainSpansList = [];
 
+  Paint paint = Paint()
+    ..color = Colors.blue
+    ..style = PaintingStyle.stroke
+    ..strokeCap = StrokeCap.round
+    ..strokeWidth = 2.0;
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +73,7 @@ class _HomeState extends State<Home> {
             Expanded(
               child: RichText(
                 text: TextSpan(
+                  style: TextStyle(background: paint),
                   children: _mainTextSpans(),
                 ),
               ),
