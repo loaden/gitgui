@@ -175,12 +175,13 @@ class _HomeState extends State<Home> {
   Future<void> _rustGetDiff() async {
     final diff = await api.getDiff();
     if (mounted) {
-      _diffController.text = "";
       setState(() {
-        _diffController.lines = diff;
+        String text = "";
         for (var e in diff) {
-          _diffController.text += e.content;
+          text += e.content;
         }
+        _diffController.lines = diff;
+        _diffController.text = text;
       });
     }
   }
