@@ -82,7 +82,14 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   const TextField(),
-                  const TextField(),
+                  Expanded(
+                    child: ListView(
+                      children: const [
+                        Text("data"),
+                        Text("data"),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => _rustOpenRepo(),
