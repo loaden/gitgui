@@ -1,4 +1,4 @@
-# GitGui
+# Gitgui
 
 It's only a learning project for now.
 

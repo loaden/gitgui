@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-
 import 'package:gitgui/bridge_api.dart';
 import 'package:gitgui/route/route.dart' as route;
 import 'package:gitgui/native.dart';
@@ -14,14 +12,48 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  List<DiffLine> _mainSpansList = [];
+class OverTextEditingController extends TextEditingController {
+  List<DiffLine> lines;
+  OverTextEditingController({required this.lines});
 
-  Paint paint = Paint()
-    ..color = Colors.blue
-    ..style = PaintingStyle.stroke
-    ..strokeCap = StrokeCap.round
-    ..strokeWidth = 2.0;
+  @override
+  TextSpan buildTextSpan(
+      {required BuildContext context,
+      TextStyle? style,
+      required bool withComposing}) {
+    print(lines);
+    print(text);
+    return TextSpan(
+      style: style,
+      children: _mainTextSpans(),
+    );
+  }
+
+  List<InlineSpan> _mainTextSpans() {
+    return List.generate(lines.length, (index) {
+      DiffLine item = lines[index];
+      return TextSpan(
+        text: item.content,
+        style: TextStyle(
+          color: () {
+            if (item.lineType == DiffLineType.Add) {
+              return Colors.green;
+            } else if (item.lineType == DiffLineType.Delete) {
+              return Colors.red;
+            } else if (item.lineType == DiffLineType.Header) {
+              return Colors.blue;
+            } else {
+              return Colors.grey;
+            }
+          }(),
+        ),
+      );
+    });
+  }
+}
+
+class _HomeState extends State<Home> {
+  final _diffController = OverTextEditingController(lines: []);
 
   @override
   void initState() {
@@ -53,9 +85,6 @@ class _HomeState extends State<Home> {
                 children: [
                   const TextField(),
                   const TextField(),
-                  const TextField(),
-                  const TextField(),
-                  const TextField(),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => _rustOpenRepo(),
@@ -78,10 +107,20 @@ class _HomeState extends State<Home> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(background: paint),
-                  children: _mainTextSpans(),
+              child: TextField(
+                controller: _diffController,
+                readOnly: true,
+                minLines: null,
+                maxLines: null,
+                expands: true,
+                textAlign: TextAlign.start,
+                textAlignVertical: TextAlignVertical.top,
+                decoration: const InputDecoration(
+                  labelText: 'Diff',
+                  helperText: "内容显示区",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
                 ),
               ),
             ),
@@ -89,28 +128,6 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-
-  List<InlineSpan> _mainTextSpans() {
-    return List.generate(_mainSpansList.length, (index) {
-      DiffLine item = _mainSpansList[index];
-      return TextSpan(
-        text: item.content,
-        style: TextStyle(
-          color: () {
-            if (item.lineType == DiffLineType.Add) {
-              return Colors.green;
-            } else if (item.lineType == DiffLineType.Delete) {
-              return Colors.red;
-            } else if (item.lineType == DiffLineType.Header) {
-              return Colors.blue;
-            } else {
-              return Colors.grey;
-            }
-          }(),
-        ),
-      );
-    });
   }
 
   Row _navRoute(BuildContext context) {
@@ -153,7 +170,13 @@ class _HomeState extends State<Home> {
   Future<void> _rustGetDiff() async {
     final diff = await api.getDiff();
     if (mounted) {
-      setState(() => _mainSpansList = diff);
+      _diffController.text = "";
+      setState(() {
+        _diffController.lines = diff;
+        for (var e in diff) {
+          _diffController.text += e.content;
+        }
+      });
     }
   }
 }
