@@ -46,31 +46,31 @@ impl App {
         self.do_quit
     }
 
-    pub fn log(&self, msg: String) {
+    pub fn log(&self, msg: &str) {
         println!("COUNT: {}, MESSAGE: {}", self.count, msg);
     }
 
-    pub fn repo() -> PathBuf {
-        let mut exec = env::current_exe().unwrap();
-        println!("BEFORE: {:#?}", exec);
+    pub fn src_path() -> PathBuf {
+        let mut dir = env::current_exe().unwrap();
         loop {
-            exec.push(".git");
-            if exec.exists() || exec.parent().is_none() {
-                exec.pop(); // .git
+            dir.push(".git");
+            if dir.exists() {
+                dir.pop(); // .git
                 break;
             }
-            exec.pop(); // .git
-            exec.pop();
+            dir.pop(); // .git
+            dir.pop();
+            if dir.parent().is_none() {
+                break;
+            }
         }
-
-        println!("AFTER: {:#?}", exec);
-        exec
+        dir
     }
 }
 
 impl App {
     pub fn fetch_status(&mut self) {
-        let repo = match Repository::init(App::repo()) {
+        let repo = match Repository::init(App::src_path()) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to init: {}", e),
         };
@@ -133,7 +133,7 @@ impl App {
 }
 
 fn get_diff(p: &Path) -> Diff {
-    let repo = Repository::init(App::repo()).unwrap();
+    let repo = Repository::init(App::src_path()).unwrap();
 
     if repo.is_bare() {
         panic!("bare repo")
