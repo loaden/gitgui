@@ -21,15 +21,13 @@ class OverTextEditingController extends TextEditingController {
       {required BuildContext context,
       TextStyle? style,
       required bool withComposing}) {
-    print(lines);
-    print(text);
     return TextSpan(
       style: style,
-      children: _mainTextSpans(),
+      children: _diffTextSpans(),
     );
   }
 
-  List<InlineSpan> _mainTextSpans() {
+  List<InlineSpan> _diffTextSpans() {
     return List.generate(lines.length, (index) {
       DiffLine item = lines[index];
       return TextSpan(
