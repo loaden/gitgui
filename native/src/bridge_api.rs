@@ -22,6 +22,16 @@ use std::sync::Arc;
 
 // Section: wire functions
 
+fn wire_get_repo_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
+        WrapInfo {
+            debug_name: "get_repo",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(get_repo()),
+    )
+}
 fn wire_app_run_impl(port_: MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
@@ -149,6 +159,11 @@ support::lazy_static! {
 mod io {
     use super::*;
     // Section: wire functions
+
+    #[no_mangle]
+    pub extern "C" fn wire_get_repo(port_: i64) {
+        wire_get_repo_impl(port_)
+    }
 
     #[no_mangle]
     pub extern "C" fn wire_app_run(port_: i64) {

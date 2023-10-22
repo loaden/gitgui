@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gitgui/bridge_api.dart';
@@ -50,6 +50,11 @@ class _HomeState extends State<Home> {
                   const TextField(),
                   const TextField(),
                   const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () => _rustOpenRepo(),
+                    child: const Text("Open Repo"),
+                  ),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () => _rustFetchStatus(),
                     child: const Text("Fetch Status"),
@@ -125,12 +130,19 @@ class _HomeState extends State<Home> {
     await api.appRun();
   }
 
-  Future<void> _rustFetchStatus() async {
-    await api.fetchStatus();
+  Future<void> _rustOpenRepo() async {
+    String d = await api.getRepo();
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
+      dialogTitle: "选择源码库",
+      initialDirectory: d,
+    );
+    if (selectedDirectory != null) {
+      print(selectedDirectory);
+    }
   }
 
-  void _rustFetchStatus2() {
-    api.fetchStatus();
+  Future<void> _rustFetchStatus() async {
+    await api.fetchStatus();
   }
 
   Future<void> _rustUpdateDiff() async {

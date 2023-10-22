@@ -6,6 +6,13 @@ pub fn init_app() {
     app.log("INIT DONE!".to_string());
 }
 
+pub fn get_repo() -> String {
+    match App::repo().to_str() {
+        Some(s) => s.to_string(),
+        None => String::new(),
+    }
+}
+
 pub fn fetch_status() {
     let mut app = APP.write().unwrap();
     app.fetch_status();

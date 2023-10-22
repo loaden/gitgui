@@ -11,6 +11,10 @@ import 'package:uuid/uuid.dart';
 import 'dart:ffi' as ffi;
 
 abstract class Native {
+  Future<String> getRepo({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetRepoConstMeta;
+
   Future<void> appRun({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
@@ -54,6 +58,23 @@ class NativeImpl implements Native {
   factory NativeImpl.wasm(FutureOr<WasmModule> module) =>
       NativeImpl(module as ExternalLibrary);
   NativeImpl.raw(this._platform);
+  Future<String> getRepo({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_repo(port_),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: null,
+      constMeta: kGetRepoConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetRepoConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_repo",
+        argNames: [],
+      );
+
   Future<void> appRun({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_app_run(port_),
@@ -275,6 +296,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
           'init_frb_dart_api_dl');
   late final _init_frb_dart_api_dl = _init_frb_dart_api_dlPtr
       .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+
+  void wire_get_repo(
+    int port_,
+  ) {
+    return _wire_get_repo(
+      port_,
+    );
+  }
+
+  late final _wire_get_repoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_get_repo');
+  late final _wire_get_repo =
+      _wire_get_repoPtr.asFunction<void Function(int)>();
 
   void wire_app_run(
     int port_,
