@@ -1,26 +1,30 @@
 pub mod app;
 pub use app::{App, DiffLine, APP};
 
-pub fn init_app() {
+pub fn get_repo() -> String {
     let app = APP.read().unwrap();
-    app.log("INIT DONE!");
+    app.get_repo()
 }
 
-pub fn get_repo() -> String {
-    match App::src_path().to_str() {
-        Some(s) => s.to_string(),
-        None => String::new(),
-    }
+pub fn set_repo(path: String) {
+    let mut app = APP.write().unwrap();
+    app.set_repo(path);
+}
+
+pub fn open_default_repo() {
+    let mut app = APP.write().unwrap();
+    let repo = app.get_default_repo();
+    app.set_repo(repo);
+}
+
+pub fn get_default_repo() -> String {
+    let app = APP.read().unwrap();
+    app.get_default_repo()
 }
 
 pub fn fetch_status() {
     let mut app = APP.write().unwrap();
     app.fetch_status();
-}
-
-pub fn update_diff() {
-    let mut app = APP.write().unwrap();
-    app.update_diff();
 }
 
 pub fn get_diff() -> Vec<DiffLine> {
@@ -43,17 +47,11 @@ mod tests {
 
     #[test]
     fn init_app() {
-        super::init_app();
+        super::open_default_repo();
     }
 
     #[test]
     fn fetch_status() {
         super::fetch_status();
-    }
-
-    #[test]
-    fn update_diff() {
-        super::fetch_status();
-        super::update_diff();
     }
 }

@@ -1,6 +1,8 @@
-import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+
 import 'package:gitgui/bridge_api.dart';
 import 'package:gitgui/route/route.dart' as route;
 import 'package:gitgui/native.dart';
@@ -24,7 +26,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _rustAppRun();
+
+    if (Platform.isMacOS) {
+      _rustOpenRepo();
+    } else {
+      _rustOpenDefaultRepo();
+    }
   }
 
   @override
@@ -58,11 +65,6 @@ class _HomeState extends State<Home> {
                   ElevatedButton(
                     onPressed: () => _rustFetchStatus(),
                     child: const Text("Fetch Status"),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () => _rustUpdateDiff(),
-                    child: const Text("Update Diff"),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -126,27 +128,26 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> _rustAppRun() async {
-    await api.appRun();
+  Future<void> _rustOpenDefaultRepo() async {
+    api.openDefaultRepo();
+    _rustGetDiff();
   }
 
   Future<void> _rustOpenRepo() async {
-    String d = await api.getRepo();
+    String d = await api.getDefaultRepo();
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath(
       dialogTitle: "选择源码库",
       initialDirectory: d,
     );
     if (selectedDirectory != null) {
-      print(selectedDirectory);
+      await api.setRepo(path: selectedDirectory);
+      _rustGetDiff();
     }
   }
 
   Future<void> _rustFetchStatus() async {
     await api.fetchStatus();
-  }
-
-  Future<void> _rustUpdateDiff() async {
-    await api.updateDiff();
+    _rustGetDiff();
   }
 
   Future<void> _rustGetDiff() async {

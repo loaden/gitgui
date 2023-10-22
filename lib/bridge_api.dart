@@ -15,17 +15,21 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kGetRepoConstMeta;
 
-  Future<void> appRun({dynamic hint});
+  Future<void> setRepo({required String path, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta;
+  FlutterRustBridgeTaskConstMeta get kSetRepoConstMeta;
+
+  Future<void> openDefaultRepo({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kOpenDefaultRepoConstMeta;
+
+  Future<String> getDefaultRepo({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetDefaultRepoConstMeta;
 
   Future<void> fetchStatus({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kFetchStatusConstMeta;
-
-  Future<void> updateDiff({dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kUpdateDiffConstMeta;
 
   Future<List<DiffLine>> getDiff({dynamic hint});
 
@@ -75,20 +79,55 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  Future<void> appRun({dynamic hint}) {
+  Future<void> setRepo({required String path, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(path);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_app_run(port_),
+      callFfi: (port_) => _platform.inner.wire_set_repo(port_, arg0),
       parseSuccessData: _wire2api_unit,
       parseErrorData: null,
-      constMeta: kAppRunConstMeta,
+      constMeta: kSetRepoConstMeta,
+      argValues: [path],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kSetRepoConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "set_repo",
+        argNames: ["path"],
+      );
+
+  Future<void> openDefaultRepo({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_open_default_repo(port_),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kOpenDefaultRepoConstMeta,
       argValues: [],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kAppRunConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kOpenDefaultRepoConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "app_run",
+        debugName: "open_default_repo",
+        argNames: [],
+      );
+
+  Future<String> getDefaultRepo({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_default_repo(port_),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: null,
+      constMeta: kGetDefaultRepoConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetDefaultRepoConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_default_repo",
         argNames: [],
       );
 
@@ -106,23 +145,6 @@ class NativeImpl implements Native {
   FlutterRustBridgeTaskConstMeta get kFetchStatusConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "fetch_status",
-        argNames: [],
-      );
-
-  Future<void> updateDiff({dynamic hint}) {
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_update_diff(port_),
-      parseSuccessData: _wire2api_unit,
-      parseErrorData: null,
-      constMeta: kUpdateDiffConstMeta,
-      argValues: [],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kUpdateDiffConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "update_diff",
         argNames: [],
       );
 
@@ -189,6 +211,11 @@ class NativeImpl implements Native {
 
 // Section: api2wire
 
+@protected
+int api2wire_u8(int raw) {
+  return raw;
+}
+
 // Section: finalizer
 
 class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
@@ -196,6 +223,17 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
 
 // Section: api2wire
 
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_String(String raw) {
+    return api2wire_uint_8_list(utf8.encoder.convert(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_uint_8_list(Uint8List raw) {
+    final ans = inner.new_uint_8_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
 // Section: finalizer
 
 // Section: api_fill_to_wire
@@ -311,17 +349,50 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_get_repo =
       _wire_get_repoPtr.asFunction<void Function(int)>();
 
-  void wire_app_run(
+  void wire_set_repo(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> path,
+  ) {
+    return _wire_set_repo(
+      port_,
+      path,
+    );
+  }
+
+  late final _wire_set_repoPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_set_repo');
+  late final _wire_set_repo = _wire_set_repoPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_open_default_repo(
     int port_,
   ) {
-    return _wire_app_run(
+    return _wire_open_default_repo(
       port_,
     );
   }
 
-  late final _wire_app_runPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_app_run');
-  late final _wire_app_run = _wire_app_runPtr.asFunction<void Function(int)>();
+  late final _wire_open_default_repoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_open_default_repo');
+  late final _wire_open_default_repo =
+      _wire_open_default_repoPtr.asFunction<void Function(int)>();
+
+  void wire_get_default_repo(
+    int port_,
+  ) {
+    return _wire_get_default_repo(
+      port_,
+    );
+  }
+
+  late final _wire_get_default_repoPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_get_default_repo');
+  late final _wire_get_default_repo =
+      _wire_get_default_repoPtr.asFunction<void Function(int)>();
 
   void wire_fetch_status(
     int port_,
@@ -337,20 +408,6 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_fetch_status =
       _wire_fetch_statusPtr.asFunction<void Function(int)>();
 
-  void wire_update_diff(
-    int port_,
-  ) {
-    return _wire_update_diff(
-      port_,
-    );
-  }
-
-  late final _wire_update_diffPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_update_diff');
-  late final _wire_update_diff =
-      _wire_update_diffPtr.asFunction<void Function(int)>();
-
   void wire_get_diff(
     int port_,
   ) {
@@ -364,6 +421,21 @@ class NativeWire implements FlutterRustBridgeWireBase {
           'wire_get_diff');
   late final _wire_get_diff =
       _wire_get_diffPtr.asFunction<void Function(int)>();
+
+  ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
+    int len,
+  ) {
+    return _new_uint_8_list_0(
+      len,
+    );
+  }
+
+  late final _new_uint_8_list_0Ptr = _lookup<
+          ffi
+          .NativeFunction<ffi.Pointer<wire_uint_8_list> Function(ffi.Int32)>>(
+      'new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr
+      .asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -381,6 +453,13 @@ class NativeWire implements FlutterRustBridgeWireBase {
 }
 
 final class _Dart_Handle extends ffi.Opaque {}
+
+final class wire_uint_8_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
 
 typedef DartPostCObjectFnType = ffi.Pointer<
     ffi.NativeFunction<

@@ -52,5 +52,8 @@ gen:
 get:
   flutter pub get
 
+dart:
+  dart run build_runner build
+
 upgrade:
 	flutter pub upgrade

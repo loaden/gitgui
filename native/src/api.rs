@@ -6,16 +6,20 @@ pub fn get_repo() -> String {
     base::get_repo()
 }
 
-pub fn app_run() {
-    base::init_app();
+pub fn set_repo(path: String) {
+    base::set_repo(path);
+}
+
+pub fn open_default_repo() {
+    base::open_default_repo();
+}
+
+pub fn get_default_repo() -> String {
+    base::get_default_repo()
 }
 
 pub fn fetch_status() {
     base::fetch_status();
-}
-
-pub fn update_diff() {
-    base::update_diff();
 }
 
 #[frb(mirror(DiffLineType))]
