@@ -39,3 +39,11 @@ pub struct _DiffLine {
 pub fn get_diff() -> Vec<DiffLine> {
     base::get_diff()
 }
+
+pub fn get_status_items() -> Vec<String> {
+    base::get_status_items()
+}
+
+pub fn set_status_select(index: usize) {
+    base::set_status_select(index);
+}

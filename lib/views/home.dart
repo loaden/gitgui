@@ -52,6 +52,8 @@ class OverTextEditingController extends TextEditingController {
 
 class _HomeState extends State<Home> {
   final _diffController = OverTextEditingController(lines: []);
+  List<String> _statusItems = [];
+  int _statusSelect = 0;
 
   @override
   void initState() {
@@ -75,9 +77,9 @@ class _HomeState extends State<Home> {
             ConstrainedBox(
               constraints: const BoxConstraints(
                 minHeight: 50,
-                minWidth: 100,
+                minWidth: 200,
                 maxHeight: double.infinity,
-                maxWidth: 200,
+                maxWidth: 300,
               ),
               child: Column(
                 children: [
@@ -90,12 +92,24 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
+                  const ListTile(title: Text("文件列表")),
                   Expanded(
                     child: ListView(
-                      children: const [
-                        Text("data"),
-                        Text("data"),
-                      ],
+                      padding: const EdgeInsets.all(10),
+                      itemExtent: 36,
+                      children: List.generate(_statusItems.length, (index) {
+                        var item = _statusItems[index];
+                        return ListTile(
+                          title: Text(item),
+                          trailing: _statusSelect == index
+                              ? const Icon(Icons.keyboard_arrow_right_outlined)
+                              : null,
+                          onTap: () {
+                            _statusSelect = index;
+                            _rustSetStatusSelect(index);
+                          },
+                        );
+                      }),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -110,11 +124,12 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: () => _rustGetDiff(),
+                    onPressed: () => _rustGetData(),
                     child: const Text("Get Diff"),
                   ),
                   const SizedBox(height: 20),
                   _navRoute(context),
+                  const SizedBox(height: 50),
                 ],
               ),
             ),
@@ -160,7 +175,7 @@ class _HomeState extends State<Home> {
 
   Future<void> _rustOpenDefaultRepo() async {
     api.openDefaultRepo();
-    _rustGetDiff();
+    _rustGetData();
   }
 
   Future<void> _rustOpenRepo() async {
@@ -171,17 +186,26 @@ class _HomeState extends State<Home> {
     );
     if (selectedDirectory != null) {
       await api.setRepo(path: selectedDirectory);
-      _rustGetDiff();
+      _rustGetData();
     }
   }
 
   Future<void> _rustFetchStatus() async {
     await api.fetchStatus();
-    _rustGetDiff();
+    _rustGetData();
   }
 
-  Future<void> _rustGetDiff() async {
-    final diff = await api.getDiff();
+  Future<void> _rustSetStatusSelect(int index) async {
+    await api.setStatusSelect(index: index);
+    _rustGetData();
+  }
+
+  Future<void> _rustGetData() async {
+    var w1 = api.getStatusItems();
+    var w2 = api.getDiff();
+    var result = await Future.wait([w1, w2]);
+    var items = result[0] as List<String>;
+    var diff = result[1] as List<DiffLine>;
     if (mounted) {
       setState(() {
         String text = "";
@@ -190,6 +214,7 @@ class _HomeState extends State<Home> {
         }
         _diffController.lines = diff;
         _diffController.text = text;
+        _statusItems = items;
       });
     }
   }

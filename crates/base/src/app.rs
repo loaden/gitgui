@@ -1,5 +1,5 @@
 use git2::{DiffFormat, Repository, Status};
-use std::env;
+use std::{env, usize};
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 
@@ -156,7 +156,7 @@ impl App {
         self.diff.0.clone()
     }
 
-    fn get_current_diff(&self, p: &Path) -> Diff {
+    pub fn get_current_diff(&self, p: &Path) -> Diff {
         let repo = Repository::init(self.get_repo()).unwrap();
         let diff = repo.diff_index_to_workdir(None, None).unwrap();
 
@@ -188,5 +188,14 @@ impl App {
         .unwrap();
 
         Diff(res)
+    }
+
+    pub fn get_status_items(&self) -> Vec<String> {
+        self.status_items.clone()
+    }
+
+    pub fn set_status_select(&mut self, index: usize) {
+        self.status_select = Some(index);
+        self.update_diff();
     }
 }

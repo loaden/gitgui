@@ -32,6 +32,16 @@ pub fn get_diff() -> Vec<DiffLine> {
     app.get_diff()
 }
 
+pub fn get_status_items() -> Vec<String> {
+    let app = APP.read().unwrap();
+    app.get_status_items()
+}
+
+pub fn set_status_select(index: usize) {
+    let mut app = APP.write().unwrap();
+    app.set_status_select(index);
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
