@@ -93,25 +93,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   const ListTile(title: Text("文件列表")),
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.all(10),
-                      itemExtent: 36,
-                      children: List.generate(_statusItems.length, (index) {
-                        var item = _statusItems[index];
-                        return ListTile(
-                          title: Text(item),
-                          trailing: _statusSelect == index
-                              ? const Icon(Icons.keyboard_arrow_right_outlined)
-                              : null,
-                          onTap: () {
-                            _statusSelect = index;
-                            _rustSetStatusSelect(index);
-                          },
-                        );
-                      }),
-                    ),
-                  ),
+                  statusListView(),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => _rustOpenRepo(),
@@ -128,37 +110,63 @@ class _HomeState extends State<Home> {
                     child: const Text("Get Diff"),
                   ),
                   const SizedBox(height: 20),
-                  _navRoute(context),
+                  navRoute(context),
                   const SizedBox(height: 50),
                 ],
               ),
             ),
             const SizedBox(width: 10),
-            Expanded(
-              child: TextField(
-                controller: _diffController,
-                readOnly: true,
-                minLines: null,
-                maxLines: null,
-                expands: true,
-                textAlign: TextAlign.start,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: const InputDecoration(
-                  labelText: 'Diff',
-                  helperText: "内容显示区",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                ),
-              ),
-            ),
+            diffTextField(),
           ],
         ),
       ),
     );
   }
 
-  Row _navRoute(BuildContext context) {
+  Expanded statusListView() {
+    return Expanded(
+      child: ListView(
+        padding: const EdgeInsets.all(10),
+        itemExtent: 36,
+        children: List.generate(_statusItems.length, (index) {
+          var item = _statusItems[index];
+          return ListTile(
+            title: Text(item),
+            trailing: _statusSelect == index
+                ? const Icon(Icons.keyboard_arrow_right_outlined)
+                : null,
+            onTap: () {
+              _statusSelect = index;
+              _rustSetStatusSelect(index);
+            },
+          );
+        }),
+      ),
+    );
+  }
+
+  Expanded diffTextField() {
+    return Expanded(
+      child: TextField(
+        controller: _diffController,
+        readOnly: true,
+        minLines: null,
+        maxLines: null,
+        expands: true,
+        textAlign: TextAlign.start,
+        textAlignVertical: TextAlignVertical.top,
+        decoration: const InputDecoration(
+          labelText: 'Diff',
+          helperText: "内容显示区",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row navRoute(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
