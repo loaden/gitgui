@@ -125,22 +125,28 @@ class _HomeState extends State<Home> {
 
   Expanded statusListView() {
     return Expanded(
-      child: ListView(
-        padding: const EdgeInsets.all(10),
-        itemExtent: 36,
-        children: List.generate(_statusItems.length, (index) {
-          var item = _statusItems[index];
-          return ListTile(
-            title: Text(item),
-            trailing: _statusSelect == index
-                ? const Icon(Icons.keyboard_arrow_right_outlined)
-                : null,
-            onTap: () {
-              _statusSelect = index;
-              _rustSetStatusSelect(index);
-            },
-          );
-        }),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(10),
+          itemExtent: 36,
+          children: List.generate(_statusItems.length, (index) {
+            var item = _statusItems[index];
+            return ListTile(
+              title: Text(item),
+              trailing: _statusSelect == index
+                  ? const Icon(Icons.keyboard_arrow_right_outlined)
+                  : null,
+              onTap: () {
+                _statusSelect = index;
+                _rustSetStatusSelect(index);
+              },
+            );
+          }),
+        ),
       ),
     );
   }
