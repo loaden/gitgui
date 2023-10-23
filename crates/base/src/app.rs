@@ -1,7 +1,9 @@
-use git2::{DiffFormat, Repository, Status};
-use std::{env, usize};
+use git2::{DiffFormat, DiffOptions, Repository, Status};
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
+use std::{env, usize};
+
+use crate::git_utils;
 
 lazy_static::lazy_static! {
     pub static ref APP: RwLock<App> = RwLock::new(App::default());
@@ -113,16 +115,13 @@ impl App {
             if status.is_ignored() {
                 continue;
             }
-
-            if status.is_index_new() || status.is_index_modified() {
+            if git_utils::on_index(&status) {
                 self.index_items.push(format!(
                     "{} ({:?})",
                     e.path().unwrap().to_string(),
                     status
                 ))
-            }
-
-            if status.is_wt_new() || status.is_wt_modified() {
+            } else {
                 self.status_items.push(e.path().unwrap().to_string())
             }
         }
@@ -158,18 +157,13 @@ impl App {
 
     pub fn get_current_diff(&self, p: &Path) -> Diff {
         let repo = Repository::init(self.get_repo()).unwrap();
-        let diff = repo.diff_index_to_workdir(None, None).unwrap();
+
+        let mut opt = DiffOptions::new();
+        opt.pathspec(p);
+        let diff = repo.diff_index_to_workdir(None, Some(&mut opt)).unwrap();
 
         let mut res = Vec::new();
-
-        diff.print(DiffFormat::Patch, |delta, _hunk, line| {
-            if p != delta.old_file().path().unwrap() {
-                return true;
-            }
-            if p != delta.new_file().path().unwrap() {
-                return true;
-            }
-
+        diff.print(DiffFormat::Patch, |_delta, _hunk, line| {
             let line_type = match line.origin() {
                 'H' => DiffLineType::Header,
                 '<' | '-' => DiffLineType::Delete,

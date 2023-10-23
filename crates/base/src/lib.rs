@@ -1,6 +1,8 @@
 pub mod app;
 pub use app::{App, DiffLine, APP};
 
+mod git_utils;
+
 pub fn get_repo() -> String {
     let app = APP.read().unwrap();
     app.get_repo()
