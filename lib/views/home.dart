@@ -81,7 +81,15 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  const TextField(),
+                  const TextField(
+                    decoration: InputDecoration(
+                      labelText: '搜索...',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: ListView(
                       children: const [
