@@ -1,36 +1,15 @@
-use git2::{DiffFormat, DiffOptions, Repository, Status};
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 use std::{env, usize};
 
-use crate::git_utils;
+use git2::{Repository, Status};
+use lazy_static::lazy_static;
 
-lazy_static::lazy_static! {
+use crate::git_utils::{self, Diff, DiffLine};
+
+lazy_static! {
     pub static ref APP: RwLock<App> = RwLock::new(App::default());
 }
-
-#[derive(Copy, Clone, PartialEq)]
-pub enum DiffLineType {
-    None,
-    Header,
-    Add,
-    Delete,
-}
-
-impl Default for DiffLineType {
-    fn default() -> Self {
-        DiffLineType::None
-    }
-}
-
-#[derive(Default, PartialEq, Clone)]
-pub struct DiffLine {
-    pub content: String,
-    pub line_type: DiffLineType,
-}
-
-#[derive(Default, PartialEq)]
-pub struct Diff(Vec<DiffLine>);
 
 #[derive(Default)]
 pub struct App {
@@ -141,7 +120,7 @@ impl App {
         let new_diff = match self.status_select {
             Some(i) => {
                 let path = Path::new(self.status_items[i].as_str());
-                self.get_current_diff(path)
+                git_utils::get_diff(self.get_repo(), path)
             }
             None => Diff::default(),
         };
@@ -153,35 +132,6 @@ impl App {
 
     pub fn get_diff(&self) -> Vec<DiffLine> {
         self.diff.0.clone()
-    }
-
-    pub fn get_current_diff(&self, p: &Path) -> Diff {
-        let repo = Repository::init(self.get_repo()).unwrap();
-
-        let mut opt = DiffOptions::new();
-        opt.pathspec(p);
-        let diff = repo.diff_index_to_workdir(None, Some(&mut opt)).unwrap();
-
-        let mut res = Vec::new();
-        diff.print(DiffFormat::Patch, |_delta, _hunk, line| {
-            let line_type = match line.origin() {
-                'H' => DiffLineType::Header,
-                '<' | '-' => DiffLineType::Delete,
-                '>' | '+' => DiffLineType::Add,
-                _ => DiffLineType::None,
-            };
-
-            let diff_line = DiffLine {
-                content: String::from_utf8_lossy(line.content()).to_string(),
-                line_type,
-            };
-
-            res.push(diff_line);
-            true
-        })
-        .unwrap();
-
-        Diff(res)
     }
 
     pub fn get_status_items(&self) -> Vec<String> {

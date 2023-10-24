@@ -1,5 +1,5 @@
 use base;
-pub use base::app::{DiffLine, DiffLineType};
+pub use base::git_utils::{DiffLine, DiffLineType};
 use flutter_rust_bridge::frb;
 
 pub fn get_repo() -> String {
