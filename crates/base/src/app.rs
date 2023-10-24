@@ -2,9 +2,9 @@ use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 use std::{env, usize};
 
-use git2::{Repository, Status};
 use lazy_static::lazy_static;
 
+use crate::git_status::StatusLists;
 use crate::git_utils::{self, Diff, DiffLine};
 
 lazy_static! {
@@ -14,9 +14,8 @@ lazy_static! {
 #[derive(Default)]
 pub struct App {
     repo: String,
-    status_items: Vec<String>,
+    status: StatusLists,
     status_select: Option<usize>,
-    index_items: Vec<String>,
     diff: Diff,
     do_quit: bool,
     count: u32,
@@ -72,44 +71,17 @@ impl App {
 
 impl App {
     pub fn fetch_status(&mut self) {
-        let repo = match Repository::init(self.get_repo()) {
-            Ok(repo) => repo,
-            Err(e) => panic!("failed to init: {}", e),
-        };
+        let new_status = StatusLists::from(self.get_repo());
 
-        println!("state: {:?}", repo.state());
-        println!("path: {:?}", repo.path());
+        if self.status != new_status {
+            self.status = new_status;
 
-        if repo.is_bare() {
-            panic!("bare repo")
-        }
-
-        let statuses = repo.statuses(None).unwrap();
-
-        self.status_items = Vec::new();
-        self.index_items = Vec::new();
-
-        for e in statuses.iter() {
-            let status: Status = e.status();
-            if status.is_ignored() {
-                continue;
-            }
-            if git_utils::on_index(&status) {
-                self.index_items.push(format!(
-                    "{} ({:?})",
-                    e.path().unwrap().to_string(),
-                    status
-                ))
+            self.status_select = if self.status.wt_items.len() > 0 {
+                Some(0)
             } else {
-                self.status_items.push(e.path().unwrap().to_string())
-            }
+                None
+            };
         }
-
-        self.status_select = if self.status_items.len() > 0 {
-            Some(0)
-        } else {
-            None
-        };
 
         self.update_diff();
     }
@@ -119,7 +91,7 @@ impl App {
 
         let new_diff = match self.status_select {
             Some(i) => {
-                let path = Path::new(self.status_items[i].as_str());
+                let path = Path::new(self.status.wt_items[i].path.as_str());
                 git_utils::get_diff(self.get_repo(), path)
             }
             None => Diff::default(),
@@ -135,7 +107,7 @@ impl App {
     }
 
     pub fn get_status_items(&self) -> Vec<String> {
-        self.status_items.clone()
+        self.status.wt_items_pathlist()
     }
 
     pub fn set_status_select(&mut self, index: usize) {

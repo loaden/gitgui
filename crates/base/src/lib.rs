@@ -2,6 +2,7 @@ pub mod app;
 pub use app::{App, APP};
 pub mod git_utils;
 pub use git_utils::DiffLine;
+mod git_status;
 
 pub fn get_repo() -> String {
     let app = APP.read().unwrap();
