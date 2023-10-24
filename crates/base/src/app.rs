@@ -110,6 +110,10 @@ impl App {
         self.status.wt_items_pathlist()
     }
 
+    pub fn get_index_items(&self) -> Vec<String> {
+        self.status.index_items_pathlist()
+    }
+
     pub fn set_status_select(&mut self, index: usize) {
         self.status_select = Some(index);
         self.update_diff();

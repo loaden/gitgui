@@ -46,6 +46,11 @@ pub fn set_status_select(index: usize) {
     app.set_status_select(index);
 }
 
+pub fn get_index_items() -> Vec<String> {
+    let app = APP.read().unwrap();
+    app.get_index_items()
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

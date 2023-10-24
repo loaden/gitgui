@@ -53,7 +53,9 @@ class OverTextEditingController extends TextEditingController {
 class _HomeState extends State<Home> {
   final _diffController = OverTextEditingController(lines: []);
   List<String> _statusItems = [];
+  List<String> _indexItems = [];
   int _statusSelect = 0;
+  int _indexSelect = -1;
 
   @override
   void initState() {
@@ -92,8 +94,10 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  const ListTile(title: Text("文件列表")),
+                  const ListTile(title: Text("Status")),
                   statusListView(),
+                  const ListTile(title: Text("Index")),
+                  indexListView(),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => _rustOpenRepo(),
@@ -142,7 +146,38 @@ class _HomeState extends State<Home> {
                   : null,
               onTap: () {
                 _statusSelect = index;
+                _indexSelect = -1;
                 _rustSetStatusSelect(index);
+              },
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Expanded indexListView() {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: ListView(
+          padding: const EdgeInsets.all(10),
+          itemExtent: 36,
+          children: List.generate(_indexItems.length, (index) {
+            var item = _indexItems[index];
+            return ListTile(
+              title: Text(item),
+              trailing: _indexSelect == index
+                  ? const Icon(Icons.keyboard_arrow_right_outlined)
+                  : null,
+              onTap: () {
+                _indexSelect = index;
+                _statusSelect = -1;
+                // _rustSetStatusSelect(index);
+                _rustGetData();
               },
             );
           }),
@@ -215,11 +250,13 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _rustGetData() async {
-    var w1 = api.getStatusItems();
-    var w2 = api.getDiff();
-    var result = await Future.wait([w1, w2]);
-    var items = result[0] as List<String>;
-    var diff = result[1] as List<DiffLine>;
+    var s = api.getStatusItems();
+    var i = api.getIndexItems();
+    var d = api.getDiff();
+    var result = await Future.wait([s, i, d]);
+    var status = result[0] as List<String>;
+    var index = result[1] as List<String>;
+    var diff = result[2] as List<DiffLine>;
     if (mounted) {
       setState(() {
         String text = "";
@@ -228,7 +265,8 @@ class _HomeState extends State<Home> {
         }
         _diffController.lines = diff;
         _diffController.text = text;
-        _statusItems = items;
+        _statusItems = status;
+        _indexItems = index;
       });
     }
   }

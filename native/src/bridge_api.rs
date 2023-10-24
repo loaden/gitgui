@@ -116,6 +116,16 @@ fn wire_set_status_select_impl(
         },
     )
 }
+fn wire_get_index_items_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, Vec<String>, _>(
+        WrapInfo {
+            debug_name: "get_index_items",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(get_index_items()),
+    )
+}
 // Section: wrapper structs
 
 #[derive(Clone)]
@@ -254,6 +264,11 @@ mod io {
     #[no_mangle]
     pub extern "C" fn wire_set_status_select(port_: i64, index: usize) {
         wire_set_status_select_impl(port_, index)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_get_index_items(port_: i64) {
+        wire_get_index_items_impl(port_)
     }
 
     // Section: allocate functions

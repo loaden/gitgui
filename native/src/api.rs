@@ -48,3 +48,7 @@ pub fn get_status_items() -> Vec<String> {
 pub fn set_status_select(index: usize) {
     base::set_status_select(index);
 }
+
+pub fn get_index_items() -> Vec<String> {
+    base::get_index_items()
+}
