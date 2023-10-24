@@ -1,6 +1,7 @@
+use flutter_rust_bridge::frb;
+
 use base;
 pub use base::git_utils::{DiffLine, DiffLineType};
-use flutter_rust_bridge::frb;
 
 pub fn get_repo() -> String {
     base::get_repo()
