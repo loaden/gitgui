@@ -118,4 +118,22 @@ impl App {
         self.status_select = Some(index);
         self.update_diff();
     }
+
+    pub fn update(&mut self) {
+        self.fetch_status();
+    }
+
+    fn index_add(&mut self) {
+        if let Some(i) = self.status_select {
+            let repo = git_utils::get_repo(self.get_repo());
+
+            let mut index = repo.index().unwrap();
+
+            let path = Path::new(self.status.wt_items[i].path.as_str());
+            index.add_path(path).unwrap();
+            index.write().unwrap();
+
+            self.update();
+        }
+    }
 }
