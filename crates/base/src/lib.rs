@@ -66,10 +66,11 @@ mod tests {
     #[test]
     fn src_path() {
         use std::path::PathBuf;
+        use crate::app::App;
         let mut path = PathBuf::from("foo.git");
         path.pop();
         assert!(path.parent().is_none());
-        let mut src = super::App::src_path();
+        let mut src = App::src_path();
         src.push(".git");
         assert!(src.exists());
     }
