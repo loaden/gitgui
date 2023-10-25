@@ -46,6 +46,14 @@ abstract class Native {
   Future<List<String>> getIndexItems({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetIndexItemsConstMeta;
+
+  Future<void> indexAdd({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kIndexAddConstMeta;
+
+  Future<void> commit({required String msg, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kCommitConstMeta;
 }
 
 class DiffLine {
@@ -227,6 +235,41 @@ class NativeImpl implements Native {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "get_index_items",
         argNames: [],
+      );
+
+  Future<void> indexAdd({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_index_add(port_),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kIndexAddConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kIndexAddConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "index_add",
+        argNames: [],
+      );
+
+  Future<void> commit({required String msg, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(msg);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_commit(port_, arg0),
+      parseSuccessData: _wire2api_unit,
+      parseErrorData: null,
+      constMeta: kCommitConstMeta,
+      argValues: [msg],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kCommitConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "commit",
+        argNames: ["msg"],
       );
 
   void dispose() {
@@ -538,6 +581,37 @@ class NativeWire implements FlutterRustBridgeWireBase {
           'wire_get_index_items');
   late final _wire_get_index_items =
       _wire_get_index_itemsPtr.asFunction<void Function(int)>();
+
+  void wire_index_add(
+    int port_,
+  ) {
+    return _wire_index_add(
+      port_,
+    );
+  }
+
+  late final _wire_index_addPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_index_add');
+  late final _wire_index_add =
+      _wire_index_addPtr.asFunction<void Function(int)>();
+
+  void wire_commit(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> msg,
+  ) {
+    return _wire_commit(
+      port_,
+      msg,
+    );
+  }
+
+  late final _wire_commitPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_commit');
+  late final _wire_commit = _wire_commitPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
 
   ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
     int len,

@@ -1,6 +1,7 @@
 use std::thread;
 use std::time::Duration;
-use base::APP;
+
+pub use base::APP;
 
 #[test]
 fn test_app_run() {

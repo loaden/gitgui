@@ -126,6 +126,32 @@ fn wire_get_index_items_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(get_index_items()),
     )
 }
+fn wire_index_add_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+        WrapInfo {
+            debug_name: "index_add",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Result::<_, ()>::Ok(index_add()),
+    )
+}
+fn wire_commit_impl(
+    port_: MessagePort,
+    msg: impl Wire2Api<String> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+        WrapInfo {
+            debug_name: "commit",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_msg = msg.wire2api();
+            move |task_callback| Result::<_, ()>::Ok(commit(api_msg))
+        },
+    )
+}
 // Section: wrapper structs
 
 #[derive(Clone)]
@@ -269,6 +295,16 @@ mod io {
     #[no_mangle]
     pub extern "C" fn wire_get_index_items(port_: i64) {
         wire_get_index_items_impl(port_)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_index_add(port_: i64) {
+        wire_index_add_impl(port_)
+    }
+
+    #[no_mangle]
+    pub extern "C" fn wire_commit(port_: i64, msg: *mut wire_uint_8_list) {
+        wire_commit_impl(port_, msg)
     }
 
     // Section: allocate functions

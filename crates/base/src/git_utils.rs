@@ -28,7 +28,7 @@ pub fn on_index(s: &Status) -> bool {
     s.is_index_new() || s.is_index_modified()
 }
 
-pub fn get_repo(path: String) -> Repository {
+pub fn repo(path: String) -> Repository {
     let repo = Repository::init(path).unwrap();
 
     if repo.is_bare() {
@@ -38,11 +38,11 @@ pub fn get_repo(path: String) -> Repository {
     repo
 }
 
-pub fn get_diff(repo: String, path: &Path) -> Diff {
-    let repo = get_repo(repo);
+pub fn get_diff(r: String, p: &Path) -> Diff {
+    let repo = repo(r);
 
     let mut opt = DiffOptions::new();
-    opt.pathspec(path);
+    opt.pathspec(p);
     let diff = repo.diff_index_to_workdir(None, Some(&mut opt)).unwrap();
 
     let mut res = Vec::new();

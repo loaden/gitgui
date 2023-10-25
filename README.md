@@ -1,16 +1,25 @@
 # Gitgui
 
-It's only a learning project for now.
+GUI for git written in Rust with Flutter.
 
-## Getting Started
+## todo
 
-This project is a starting point for a Flutter application.
+* [x] show files that changed
+* [x] show files on index
+* [x] colorize diff
+* [x] only show diff of selected file
+* [x] change detection
+* [x] allow scrolling diff
+* [x] support staging
+* [x] show added files on working dir changes
+* [x] support committing
+* [ ] allow selecting/diff index items
+* [ ] support unstaging
+* [ ] polling in thread
+* [ ] log view
 
-A few resources to get you started if this is your first Flutter project:
+## resources
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* <https://github.com/extrawurst/gitui>
+* <https://docs.rs/git2/>
+* <https://libgit2.org>

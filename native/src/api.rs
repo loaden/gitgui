@@ -52,3 +52,11 @@ pub fn set_status_select(index: usize) {
 pub fn get_index_items() -> Vec<String> {
     base::get_index_items()
 }
+
+pub fn index_add() {
+    base::index_add();
+}
+
+pub fn commit(msg: String) {
+    base::commit(msg);
+}

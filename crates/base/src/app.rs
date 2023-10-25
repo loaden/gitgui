@@ -17,15 +17,10 @@ pub struct App {
     status: StatusLists,
     status_select: Option<usize>,
     diff: Diff,
-    do_quit: bool,
     count: u32,
 }
 
 impl App {
-    pub fn is_quit(&self) -> bool {
-        self.do_quit
-    }
-
     pub fn log(&self, msg: &str) {
         println!("COUNT: {}, MESSAGE: {}", self.count, msg);
     }
@@ -52,7 +47,7 @@ impl App {
         self.fetch_status();
     }
 
-    pub fn get_repo(&self) -> String {
+    pub fn repo_path(&self) -> String {
         if self.repo.is_empty() {
             String::from("./")
         } else {
@@ -71,7 +66,7 @@ impl App {
 
 impl App {
     pub fn fetch_status(&mut self) {
-        let new_status = StatusLists::from(self.get_repo());
+        let new_status = StatusLists::from(self.repo_path());
 
         if self.status != new_status {
             self.status = new_status;
@@ -92,7 +87,7 @@ impl App {
         let new_diff = match self.status_select {
             Some(i) => {
                 let path = Path::new(self.status.wt_items[i].path.as_str());
-                git_utils::get_diff(self.get_repo(), path)
+                git_utils::get_diff(self.repo_path(), path)
             }
             None => Diff::default(),
         };
@@ -123,9 +118,30 @@ impl App {
         self.fetch_status();
     }
 
-    fn index_add(&mut self) {
+    pub fn commit(&self, msg: String) {
+        let repo = git_utils::repo(self.repo_path());
+        let signature = repo.signature().unwrap();
+
+        let reference = repo.head().unwrap();
+        let mut index = repo.index().unwrap();
+        let tree_id = index.write_tree().unwrap();
+        let tree = repo.find_tree(tree_id).unwrap();
+        let parent = repo.find_commit(reference.target().unwrap()).unwrap();
+
+        repo.commit(
+            Some("HEAD"),
+            &signature,
+            &signature,
+            msg.as_str(),
+            &tree,
+            &[&parent],
+        )
+        .unwrap();
+    }
+
+    pub fn index_add(&mut self) {
         if let Some(i) = self.status_select {
-            let repo = git_utils::get_repo(self.get_repo());
+            let repo = git_utils::repo(self.repo_path());
 
             let mut index = repo.index().unwrap();
 

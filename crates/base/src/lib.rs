@@ -1,5 +1,5 @@
 mod app;
-use app::APP;
+pub use app::APP;
 use git_utils::DiffLine;
 mod git_status;
 
@@ -7,7 +7,7 @@ pub mod git_utils;
 
 pub fn get_repo() -> String {
     let app = APP.read().unwrap();
-    app.get_repo()
+    app.repo_path()
 }
 
 pub fn set_repo(path: String) {
@@ -49,6 +49,16 @@ pub fn set_status_select(index: usize) {
 pub fn get_index_items() -> Vec<String> {
     let app = APP.read().unwrap();
     app.get_index_items()
+}
+
+pub fn index_add() {
+    let mut app = APP.write().unwrap();
+    app.index_add();
+}
+
+pub fn commit(msg: String) {
+    let app = APP.read().unwrap();
+    app.commit(msg);
 }
 
 #[cfg(test)]

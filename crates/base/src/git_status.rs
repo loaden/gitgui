@@ -43,7 +43,7 @@ impl StatusLists {
     pub fn from(path: String) -> Self {
         let mut res = Self::default();
 
-        let repo = git_utils::get_repo(path);
+        let repo = git_utils::repo(path);
 
         res.wt_items = Self::get(&repo, StatusShow::Workdir);
         res.index_items = Self::get(&repo, StatusShow::Index);
