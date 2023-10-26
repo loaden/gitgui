@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:gitgui/bridge_api.dart';
 import 'package:gitgui/route/route.dart' as route;
 import 'package:gitgui/native.dart';
+import 'package:gitgui/widget/box_container.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -94,10 +95,18 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  const ListTile(title: Text("Status")),
-                  statusListView(),
-                  const ListTile(title: Text("Index")),
-                  indexListView(),
+                  Expanded(
+                    child: BoxContainer(
+                      title: "Status",
+                      child: statusListView(),
+                    ),
+                  ),
+                  Expanded(
+                    child: BoxContainer(
+                      title: "Index",
+                      child: indexListView(),
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => _rustOpenRepo(),
@@ -127,62 +136,46 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Expanded statusListView() {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.all(10),
-          itemExtent: 36,
-          children: List.generate(_statusItems.length, (index) {
-            var item = _statusItems[index];
-            return ListTile(
-              title: Text(item),
-              trailing: _statusSelect == index
-                  ? const Icon(Icons.keyboard_arrow_right_outlined)
-                  : null,
-              onTap: () {
-                _statusSelect = index;
-                _indexSelect = -1;
-                _rustSetStatusSelect(index);
-              },
-            );
-          }),
-        ),
-      ),
+  ListView statusListView() {
+    return ListView(
+      padding: const EdgeInsets.all(10),
+      itemExtent: 36,
+      children: List.generate(_statusItems.length, (index) {
+        var item = _statusItems[index];
+        return ListTile(
+          title: Text(item),
+          trailing: _statusSelect == index
+              ? const Icon(Icons.keyboard_arrow_right_outlined)
+              : null,
+          onTap: () {
+            _statusSelect = index;
+            _indexSelect = -1;
+            _rustSetStatusSelect(index);
+          },
+        );
+      }),
     );
   }
 
-  Expanded indexListView() {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.all(10),
-          itemExtent: 36,
-          children: List.generate(_indexItems.length, (index) {
-            var item = _indexItems[index];
-            return ListTile(
-              title: Text(item),
-              trailing: _indexSelect == index
-                  ? const Icon(Icons.keyboard_arrow_right_outlined)
-                  : null,
-              onTap: () {
-                _indexSelect = index;
-                _statusSelect = -1;
-                // _rustSetStatusSelect(index);
-                _rustGetData();
-              },
-            );
-          }),
-        ),
-      ),
+  ListView indexListView() {
+    return ListView(
+      padding: const EdgeInsets.all(10),
+      itemExtent: 36,
+      children: List.generate(_indexItems.length, (index) {
+        var item = _indexItems[index];
+        return ListTile(
+          title: Text(item),
+          trailing: _indexSelect == index
+              ? const Icon(Icons.keyboard_arrow_right_outlined)
+              : null,
+          onTap: () {
+            _indexSelect = index;
+            _statusSelect = -1;
+            // _rustSetStatusSelect(index);
+            _rustGetData();
+          },
+        );
+      }),
     );
   }
 
