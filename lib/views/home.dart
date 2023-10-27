@@ -88,8 +88,8 @@ class _HomeState extends State<Home> {
                 children: [
                   const TextField(
                     decoration: InputDecoration(
-                      labelText: '搜索...',
-                      prefixIcon: Icon(Icons.search),
+                      labelText: 'Commit...',
+                      prefixIcon: Icon(Icons.textsms_outlined),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
@@ -129,7 +129,9 @@ class _HomeState extends State<Home> {
               ),
             ),
             const SizedBox(width: 10),
-            diffTextField(),
+            Expanded(
+              child: diffTextField(),
+            ),
           ],
         ),
       ),
@@ -144,9 +146,12 @@ class _HomeState extends State<Home> {
         var item = _statusItems[index];
         return ListTile(
           title: Text(item),
+          dense: true,
           trailing: _statusSelect == index
-              ? const Icon(Icons.keyboard_arrow_right_outlined)
+              ? const Icon(Icons.keyboard_arrow_right)
               : null,
+          selected: _statusSelect == index,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
           onTap: () {
             _statusSelect = index;
             _indexSelect = -1;
@@ -165,9 +170,12 @@ class _HomeState extends State<Home> {
         var item = _indexItems[index];
         return ListTile(
           title: Text(item),
+          dense: true,
           trailing: _indexSelect == index
               ? const Icon(Icons.keyboard_arrow_right_outlined)
               : null,
+          selected: _indexSelect == index,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
           onTap: () {
             _indexSelect = index;
             _statusSelect = -1;
@@ -179,22 +187,20 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Expanded diffTextField() {
-    return Expanded(
-      child: TextField(
-        controller: _diffController,
-        readOnly: true,
-        minLines: null,
-        maxLines: null,
-        expands: true,
-        textAlign: TextAlign.start,
-        textAlignVertical: TextAlignVertical.top,
-        decoration: const InputDecoration(
-          labelText: 'Diff',
-          helperText: "内容显示区",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
+  TextField diffTextField() {
+    return TextField(
+      controller: _diffController,
+      readOnly: true,
+      minLines: null,
+      maxLines: null,
+      expands: true,
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.top,
+      decoration: const InputDecoration(
+        labelText: 'Diff',
+        helperText: "内容显示区",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
       ),
     );

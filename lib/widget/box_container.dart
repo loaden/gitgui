@@ -18,7 +18,7 @@ class BoxContainer extends StatelessWidget {
           child: child,
         ),
         Positioned(
-          left: 30,
+          left: 15,
           top: 15,
           child: Container(
             padding: const EdgeInsets.only(left: 5, right: 5),
@@ -26,7 +26,7 @@ class BoxContainer extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                color: Theme.of(context).disabledColor,
+                color: Theme.of(context).unselectedWidgetColor,
                 fontSize: 14,
               ),
             ),
