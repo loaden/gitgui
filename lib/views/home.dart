@@ -53,6 +53,7 @@ class OverTextEditingController extends TextEditingController {
 
 class _HomeState extends State<Home> {
   final _diffController = OverTextEditingController(lines: []);
+  final _commitMsgController = TextEditingController();
   List<String> _statusItems = [];
   List<String> _indexItems = [];
   int _statusSelect = 0;
@@ -86,14 +87,20 @@ class _HomeState extends State<Home> {
               ),
               child: Column(
                 children: [
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextField(
+                    decoration: const InputDecoration(
                       labelText: 'Commit...',
                       prefixIcon: Icon(Icons.textsms_outlined),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
                     ),
+                    controller: _commitMsgController,
+                    onSubmitted: (value) async {
+                      await api.commit(msg: value);
+                      _commitMsgController.clear();
+                      _rustFetchStatus();
+                    },
                   ),
                   Expanded(
                     child: BoxContainer(
@@ -156,6 +163,10 @@ class _HomeState extends State<Home> {
             _statusSelect = index;
             _indexSelect = -1;
             _rustSetStatusSelect(index);
+          },
+          onLongPress: () async {
+            await api.indexAdd();
+            _rustFetchStatus();
           },
         );
       }),
