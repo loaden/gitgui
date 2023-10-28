@@ -66,3 +66,24 @@ pub fn get_diff(r: String, p: &Path) -> Diff {
 
     Diff(res)
 }
+
+pub fn commit(r: String, msg: String) {
+    let repo = repo(r);
+    let signature = repo.signature().unwrap();
+
+    let reference = repo.head().unwrap();
+    let mut index = repo.index().unwrap();
+    let tree_id = index.write_tree().unwrap();
+    let tree = repo.find_tree(tree_id).unwrap();
+    let parent = repo.find_commit(reference.target().unwrap()).unwrap();
+
+    repo.commit(
+        Some("HEAD"),
+        &signature,
+        &signature,
+        msg.as_str(),
+        &tree,
+        &[&parent],
+    )
+    .unwrap();
+}

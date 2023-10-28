@@ -121,27 +121,10 @@ impl App {
     pub fn commit(&self, msg: String) -> bool {
         if self.status.index_items.is_empty() {
             return false;
+        } else {
+            git_utils::commit(self.repo_path(), msg);
+            true
         }
-
-        let repo = git_utils::repo(self.repo_path());
-        let signature = repo.signature().unwrap();
-
-        let reference = repo.head().unwrap();
-        let mut index = repo.index().unwrap();
-        let tree_id = index.write_tree().unwrap();
-        let tree = repo.find_tree(tree_id).unwrap();
-        let parent = repo.find_commit(reference.target().unwrap()).unwrap();
-
-        repo.commit(
-            Some("HEAD"),
-            &signature,
-            &signature,
-            msg.as_str(),
-            &tree,
-            &[&parent],
-        )
-        .unwrap();
-        true
     }
 
     pub fn index_add(&mut self) {
