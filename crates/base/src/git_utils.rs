@@ -94,7 +94,7 @@ pub fn index_add(r: String, file: String) -> bool {
 
     let path = Path::new(file.as_str());
 
-    let mut cb = |p: &Path, _matched_spec: &[u8]| -> i32 {
+    let cb = &mut |p: &Path, _matched_spec: &[u8]| -> i32 {
         if p == path {
             0
         } else {
@@ -105,7 +105,7 @@ pub fn index_add(r: String, file: String) -> bool {
     if let Ok(_) = index.add_all(
         path,
         IndexAddOption::DISABLE_PATHSPEC_MATCH | IndexAddOption::CHECK_PATHSPEC,
-        Some(&mut cb),
+        Some(cb),
     ) {
         index.write().unwrap();
         return true;
