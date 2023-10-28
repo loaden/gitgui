@@ -1,9 +1,11 @@
 mod app;
 pub use app::APP;
-use git_utils::DiffLine;
+
+mod git_index;
 mod git_status;
 
 pub mod git_utils;
+use git_utils::DiffLine;
 
 pub fn get_repo() -> String {
     let app = APP.read().unwrap();
@@ -26,9 +28,9 @@ pub fn get_default_repo() -> String {
     app.get_default_repo()
 }
 
-pub fn fetch_status() {
+pub fn update() {
     let mut app = APP.write().unwrap();
-    app.fetch_status();
+    app.update();
 }
 
 pub fn get_diff() -> Vec<DiffLine> {
@@ -41,7 +43,7 @@ pub fn get_status_items() -> Vec<String> {
     app.get_status_items()
 }
 
-pub fn set_status_select(index: usize) {
+pub fn set_status_select(index: i32) {
     let mut app = APP.write().unwrap();
     app.set_status_select(index);
 }
@@ -65,8 +67,8 @@ pub fn commit(msg: String) -> bool {
 mod tests {
     #[test]
     fn src_path() {
-        use std::path::PathBuf;
         use crate::app::App;
+        use std::path::PathBuf;
         let mut path = PathBuf::from("foo.git");
         path.pop();
         assert!(path.parent().is_none());
@@ -81,7 +83,7 @@ mod tests {
     }
 
     #[test]
-    fn fetch_status() {
-        super::fetch_status();
+    fn update() {
+        super::update();
     }
 }

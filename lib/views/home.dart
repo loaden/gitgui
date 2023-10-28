@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                       bool r = await api.commit(msg: value);
                       if (r) {
                         _commitMsgController.clear();
-                        _rustFetchStatus();
+                        _rustUpdate();
                       }
                     },
                   ),
@@ -123,8 +123,8 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: () => _rustFetchStatus(),
-                    child: const Text("Fetch Status"),
+                    onPressed: () => _rustUpdate(),
+                    child: const Text("Update"),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -168,7 +168,7 @@ class _HomeState extends State<Home> {
           },
           onLongPress: () async {
             await api.indexAdd();
-            _rustFetchStatus();
+            _rustUpdate();
           },
         );
       }),
@@ -251,8 +251,8 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Future<void> _rustFetchStatus() async {
-    await api.fetchStatus();
+  Future<void> _rustUpdate() async {
+    await api.update();
     _rustGetData();
   }
 

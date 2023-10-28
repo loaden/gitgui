@@ -1,9 +1,10 @@
+use std::env;
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
-use std::{env, usize};
 
 use lazy_static::lazy_static;
 
+use crate::git_index::IndexComponent;
 use crate::git_status::StatusLists;
 use crate::git_utils::{self, Diff, DiffLine};
 
@@ -15,7 +16,7 @@ lazy_static! {
 pub struct App {
     repo: String,
     status: StatusLists,
-    status_select: Option<usize>,
+    index: IndexComponent,
     diff: Diff,
     count: u32,
 }
@@ -65,30 +66,23 @@ impl App {
 }
 
 impl App {
-    pub fn fetch_status(&mut self) {
+    fn fetch_status(&mut self) {
         let new_status = StatusLists::from(self.repo_path());
 
         if self.status != new_status {
             self.status = new_status;
-
-            self.status_select = if self.status.wt_items.len() > 0 {
-                Some(0)
-            } else {
-                None
-            };
         }
-
-        self.update_diff();
     }
 
     fn update_diff(&mut self) {
         self.count += 1;
 
-        let new_diff = match self.status_select {
-            Some(i) => {
-                let path = Path::new(self.status.wt_items[i].path.as_str());
-                git_utils::get_diff(self.repo_path(), path)
-            }
+        let new_diff = match self.index.selection() {
+            Some(i) => git_utils::get_diff(
+                self.repo_path(),
+                Path::new(i.path.as_str()),
+            ),
+
             None => Diff::default(),
         };
 
@@ -109,13 +103,15 @@ impl App {
         self.status.index_items_pathlist()
     }
 
-    pub fn set_status_select(&mut self, index: usize) {
-        self.status_select = Some(index);
+    pub fn set_status_select(&mut self, index: i32) {
+        self.index.move_selection(index);
         self.update_diff();
     }
 
     pub fn update(&mut self) {
         self.fetch_status();
+        self.index.update(self.repo_path());
+        self.update_diff();
     }
 
     pub fn commit(&self, msg: String) -> bool {
@@ -128,11 +124,8 @@ impl App {
     }
 
     pub fn index_add(&mut self) {
-        if let Some(i) = self.status_select {
-            if git_utils::index_add(
-                self.repo_path(),
-                self.status.wt_items[i].path.clone(),
-            ) {
+        if let Some(i) = self.index.selection() {
+            if git_utils::index_add(self.repo_path(), i.path.clone()) {
                 self.update();
             }
         }

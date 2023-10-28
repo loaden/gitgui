@@ -68,14 +68,14 @@ fn wire_get_default_repo_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(get_default_repo()),
     )
 }
-fn wire_fetch_status_impl(port_: MessagePort) {
+fn wire_update_impl(port_: MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "fetch_status",
+            debug_name: "update",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
-        move || move |task_callback| Result::<_, ()>::Ok(fetch_status()),
+        move || move |task_callback| Result::<_, ()>::Ok(update()),
     )
 }
 fn wire_get_diff_impl(port_: MessagePort) {
@@ -100,7 +100,7 @@ fn wire_get_status_items_impl(port_: MessagePort) {
 }
 fn wire_set_status_select_impl(
     port_: MessagePort,
-    index: impl Wire2Api<usize> + UnwindSafe,
+    index: impl Wire2Api<i32> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
@@ -194,17 +194,17 @@ where
     }
 }
 
+impl Wire2Api<i32> for i32 {
+    fn wire2api(self) -> i32 {
+        self
+    }
+}
 impl Wire2Api<u8> for u8 {
     fn wire2api(self) -> u8 {
         self
     }
 }
 
-impl Wire2Api<usize> for usize {
-    fn wire2api(self) -> usize {
-        self
-    }
-}
 // Section: impl IntoDart
 
 impl support::IntoDart for mirror_DiffLine {
@@ -273,8 +273,8 @@ mod io {
     }
 
     #[no_mangle]
-    pub extern "C" fn wire_fetch_status(port_: i64) {
-        wire_fetch_status_impl(port_)
+    pub extern "C" fn wire_update(port_: i64) {
+        wire_update_impl(port_)
     }
 
     #[no_mangle]
@@ -288,7 +288,7 @@ mod io {
     }
 
     #[no_mangle]
-    pub extern "C" fn wire_set_status_select(port_: i64, index: usize) {
+    pub extern "C" fn wire_set_status_select(port_: i64, index: i32) {
         wire_set_status_select_impl(port_, index)
     }
 
@@ -337,7 +337,6 @@ mod io {
             }
         }
     }
-
     // Section: wire structs
 
     #[repr(C)]

@@ -34,13 +34,13 @@ void wire_open_default_repo(int64_t port_);
 
 void wire_get_default_repo(int64_t port_);
 
-void wire_fetch_status(int64_t port_);
+void wire_update(int64_t port_);
 
 void wire_get_diff(int64_t port_);
 
 void wire_get_status_items(int64_t port_);
 
-void wire_set_status_select(int64_t port_, uintptr_t index);
+void wire_set_status_select(int64_t port_, int32_t index);
 
 void wire_get_index_items(int64_t port_);
 
@@ -58,7 +58,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_set_repo);
     dummy_var ^= ((int64_t) (void*) wire_open_default_repo);
     dummy_var ^= ((int64_t) (void*) wire_get_default_repo);
-    dummy_var ^= ((int64_t) (void*) wire_fetch_status);
+    dummy_var ^= ((int64_t) (void*) wire_update);
     dummy_var ^= ((int64_t) (void*) wire_get_diff);
     dummy_var ^= ((int64_t) (void*) wire_get_status_items);
     dummy_var ^= ((int64_t) (void*) wire_set_status_select);

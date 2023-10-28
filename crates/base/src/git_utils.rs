@@ -1,4 +1,7 @@
-use git2::{DiffFormat, DiffOptions, IndexAddOption, Repository, Status};
+use git2::{
+    DiffFormat, DiffOptions, IndexAddOption, Repository, Status, StatusOptions,
+    StatusShow,
+};
 use std::path::Path;
 
 #[derive(Copy, Clone, PartialEq)]
@@ -28,7 +31,7 @@ pub fn on_index(s: &Status) -> bool {
     s.is_index_new() || s.is_index_modified()
 }
 
-pub fn repo(path: String) -> Repository {
+pub fn repo(path: &str) -> Repository {
     let repo = Repository::init(path).unwrap();
 
     if repo.is_bare() {
@@ -39,7 +42,7 @@ pub fn repo(path: String) -> Repository {
 }
 
 pub fn get_diff(r: String, p: &Path) -> Diff {
-    let repo = repo(r);
+    let repo = repo(&r);
 
     let mut opt = DiffOptions::new();
     opt.pathspec(p);
@@ -68,7 +71,7 @@ pub fn get_diff(r: String, p: &Path) -> Diff {
 }
 
 pub fn commit(r: String, msg: String) {
-    let repo = repo(r);
+    let repo = repo(&r);
     let signature = repo.signature().unwrap();
 
     let reference = repo.head().unwrap();
@@ -89,7 +92,7 @@ pub fn commit(r: String, msg: String) {
 }
 
 pub fn index_add(r: String, file: String) -> bool {
-    let repo = repo(r);
+    let repo = repo(&r);
     let mut index = repo.index().unwrap();
 
     let path = Path::new(file.as_str());
@@ -111,4 +114,14 @@ pub fn index_add(r: String, file: String) -> bool {
         return true;
     }
     false
+}
+
+pub fn index_empty(r: String) -> bool {
+    let repo = repo(&r);
+
+    let statuses = repo
+        .statuses(Some(StatusOptions::default().show(StatusShow::Index)))
+        .unwrap();
+
+    statuses.is_empty()
 }

@@ -27,9 +27,9 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kGetDefaultRepoConstMeta;
 
-  Future<void> fetchStatus({dynamic hint});
+  Future<void> update({dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kFetchStatusConstMeta;
+  FlutterRustBridgeTaskConstMeta get kUpdateConstMeta;
 
   Future<List<DiffLine>> getDiff({dynamic hint});
 
@@ -151,20 +151,20 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  Future<void> fetchStatus({dynamic hint}) {
+  Future<void> update({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_fetch_status(port_),
+      callFfi: (port_) => _platform.inner.wire_update(port_),
       parseSuccessData: _wire2api_unit,
       parseErrorData: null,
-      constMeta: kFetchStatusConstMeta,
+      constMeta: kUpdateConstMeta,
       argValues: [],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kFetchStatusConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kUpdateConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "fetch_status",
+        debugName: "update",
         argNames: [],
       );
 
@@ -203,7 +203,7 @@ class NativeImpl implements Native {
       );
 
   Future<void> setStatusSelect({required int index, dynamic hint}) {
-    var arg0 = api2wire_usize(index);
+    var arg0 = api2wire_i32(index);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_set_status_select(port_, arg0),
       parseSuccessData: _wire2api_unit,
@@ -327,14 +327,15 @@ class NativeImpl implements Native {
 // Section: api2wire
 
 @protected
-int api2wire_u8(int raw) {
+int api2wire_i32(int raw) {
   return raw;
 }
 
 @protected
-int api2wire_usize(int raw) {
+int api2wire_u8(int raw) {
   return raw;
 }
+
 // Section: finalizer
 
 class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
@@ -353,7 +354,6 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
     return ans;
   }
-
 // Section: finalizer
 
 // Section: api_fill_to_wire
@@ -514,19 +514,17 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_get_default_repo =
       _wire_get_default_repoPtr.asFunction<void Function(int)>();
 
-  void wire_fetch_status(
+  void wire_update(
     int port_,
   ) {
-    return _wire_fetch_status(
+    return _wire_update(
       port_,
     );
   }
 
-  late final _wire_fetch_statusPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_fetch_status');
-  late final _wire_fetch_status =
-      _wire_fetch_statusPtr.asFunction<void Function(int)>();
+  late final _wire_updatePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_update');
+  late final _wire_update = _wire_updatePtr.asFunction<void Function(int)>();
 
   void wire_get_diff(
     int port_,
@@ -567,7 +565,7 @@ class NativeWire implements FlutterRustBridgeWireBase {
   }
 
   late final _wire_set_status_selectPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.UintPtr)>>(
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Int32)>>(
           'wire_set_status_select');
   late final _wire_set_status_select =
       _wire_set_status_selectPtr.asFunction<void Function(int, int)>();

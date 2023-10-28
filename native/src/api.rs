@@ -19,8 +19,8 @@ pub fn get_default_repo() -> String {
     base::get_default_repo()
 }
 
-pub fn fetch_status() {
-    base::fetch_status();
+pub fn update() {
+    base::update();
 }
 
 #[frb(mirror(DiffLineType))]
@@ -45,7 +45,7 @@ pub fn get_status_items() -> Vec<String> {
     base::get_status_items()
 }
 
-pub fn set_status_select(index: usize) {
+pub fn set_status_select(index: i32) {
     base::set_status_select(index);
 }
 
