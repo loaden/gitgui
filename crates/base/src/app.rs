@@ -129,18 +129,11 @@ impl App {
 
     pub fn index_add(&mut self) {
         if let Some(i) = self.status_select {
-            let repo = git_utils::repo(self.repo_path());
-
-            let mut index = repo.index().unwrap();
-
-            let path = Path::new(self.status.wt_items[i].path.as_str());
-            if path.is_file() {
-                if let Ok(_) = index.add_path(path) {
-                    index.write().unwrap();
-                    self.update();
-                }
-            } else {
-                unimplemented!("can only add files");
+            if git_utils::index_add(
+                self.repo_path(),
+                self.status.wt_items[i].path.clone(),
+            ) {
+                self.update();
             }
         }
     }

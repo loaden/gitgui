@@ -87,3 +87,19 @@ pub fn commit(r: String, msg: String) {
     )
     .unwrap();
 }
+
+pub fn index_add(r: String, file: String) -> bool {
+    let repo = repo(r);
+    let mut index = repo.index().unwrap();
+
+    let path = Path::new(file.as_str());
+    if path.is_file() {
+        if let Ok(_) = index.add_path(path) {
+            index.write().unwrap();
+            return true;
+        }
+    } else {
+        unimplemented!("can only add files");
+    }
+    false
+}
