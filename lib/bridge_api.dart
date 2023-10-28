@@ -51,7 +51,7 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kIndexAddConstMeta;
 
-  Future<void> commit({required String msg, dynamic hint});
+  Future<bool> commit({required String msg, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kCommitConstMeta;
 }
@@ -254,11 +254,11 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  Future<void> commit({required String msg, dynamic hint}) {
+  Future<bool> commit({required String msg, dynamic hint}) {
     var arg0 = _platform.api2wire_String(msg);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_commit(port_, arg0),
-      parseSuccessData: _wire2api_unit,
+      parseSuccessData: _wire2api_bool,
       parseErrorData: null,
       constMeta: kCommitConstMeta,
       argValues: [msg],
@@ -283,6 +283,10 @@ class NativeImpl implements Native {
 
   List<String> _wire2api_StringList(dynamic raw) {
     return (raw as List<dynamic>).cast<String>();
+  }
+
+  bool _wire2api_bool(dynamic raw) {
+    return raw as bool;
   }
 
   DiffLine _wire2api_diff_line(dynamic raw) {

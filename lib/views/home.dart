@@ -97,9 +97,11 @@ class _HomeState extends State<Home> {
                     ),
                     controller: _commitMsgController,
                     onSubmitted: (value) async {
-                      await api.commit(msg: value);
-                      _commitMsgController.clear();
-                      _rustFetchStatus();
+                      bool r = await api.commit(msg: value);
+                      if (r) {
+                        _commitMsgController.clear();
+                        _rustFetchStatus();
+                      }
                     },
                   ),
                   Expanded(

@@ -118,7 +118,11 @@ impl App {
         self.fetch_status();
     }
 
-    pub fn commit(&self, msg: String) {
+    pub fn commit(&self, msg: String) -> bool {
+        if self.status.index_items.is_empty() {
+            return false;
+        }
+
         let repo = git_utils::repo(self.repo_path());
         let signature = repo.signature().unwrap();
 
@@ -137,6 +141,7 @@ impl App {
             &[&parent],
         )
         .unwrap();
+        true
     }
 
     pub fn index_add(&mut self) {

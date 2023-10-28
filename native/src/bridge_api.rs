@@ -140,7 +140,7 @@ fn wire_commit_impl(
     port_: MessagePort,
     msg: impl Wire2Api<String> + UnwindSafe,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, bool, _>(
         WrapInfo {
             debug_name: "commit",
             port: Some(port_),

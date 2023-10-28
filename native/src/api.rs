@@ -57,6 +57,6 @@ pub fn index_add() {
     base::index_add();
 }
 
-pub fn commit(msg: String) {
-    base::commit(msg);
+pub fn commit(msg: String) -> bool {
+    base::commit(msg)
 }

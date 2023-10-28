@@ -56,9 +56,9 @@ pub fn index_add() {
     app.index_add();
 }
 
-pub fn commit(msg: String) {
+pub fn commit(msg: String) -> bool {
     let app = APP.read().unwrap();
-    app.commit(msg);
+    app.commit(msg)
 }
 
 #[cfg(test)]
