@@ -93,9 +93,20 @@ pub fn index_add(r: String, file: String) -> bool {
     let mut index = repo.index().unwrap();
 
     let path = Path::new(file.as_str());
-    if let Ok(_) =
-        index.add_all(path, IndexAddOption::DISABLE_PATHSPEC_MATCH, None)
-    {
+
+    let cb = &mut |p: &Path, _matched_spec: &[u8]| -> i32 {
+        if p == path {
+            0
+        } else {
+            1
+        }
+    };
+
+    if let Ok(_) = index.add_all(
+        path,
+        IndexAddOption::DISABLE_PATHSPEC_MATCH | IndexAddOption::CHECK_PATHSPEC,
+        Some(cb as &mut git2::IndexMatchedPath),
+    ) {
         index.write().unwrap();
         return true;
     }
