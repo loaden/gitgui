@@ -1,4 +1,4 @@
-use git2::{DiffFormat, DiffOptions, Repository, Status};
+use git2::{DiffFormat, DiffOptions, IndexAddOption, Repository, Status};
 use std::path::Path;
 
 #[derive(Copy, Clone, PartialEq)]
@@ -93,13 +93,11 @@ pub fn index_add(r: String, file: String) -> bool {
     let mut index = repo.index().unwrap();
 
     let path = Path::new(file.as_str());
-    if path.is_file() {
-        if let Ok(_) = index.add_path(path) {
-            index.write().unwrap();
-            return true;
-        }
-    } else {
-        unimplemented!("can only add files");
+    if let Ok(_) =
+        index.add_all(path, IndexAddOption::DISABLE_PATHSPEC_MATCH, None)
+    {
+        index.write().unwrap();
+        return true;
     }
     false
 }
