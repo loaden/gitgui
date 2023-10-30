@@ -2,26 +2,35 @@ use std::env;
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
 
+use git2::StatusShow;
 use lazy_static::lazy_static;
 
 use crate::git_index::IndexComponent;
-use crate::git_status::StatusLists;
 use crate::git_utils::{self, Diff, DiffLine};
 
 lazy_static! {
-    pub static ref APP: RwLock<App> = RwLock::new(App::default());
+    pub static ref APP: RwLock<App> = RwLock::new(App::new());
 }
 
-#[derive(Default)]
 pub struct App {
     repo: String,
-    status: StatusLists,
+    index_wd: IndexComponent,
     index: IndexComponent,
     diff: Diff,
     count: u32,
 }
 
 impl App {
+    pub fn new() -> Self {
+        Self {
+            repo: String::new(),
+            diff: Diff::default(),
+            index_wd: IndexComponent::new(StatusShow::Workdir, true),
+            index: IndexComponent::new(StatusShow::Index, false),
+            count: 0,
+        }
+    }
+
     pub fn log(&self, msg: &str) {
         println!("COUNT: {}, MESSAGE: {}", self.count, msg);
     }
@@ -66,23 +75,21 @@ impl App {
 }
 
 impl App {
-    fn fetch_status(&mut self) {
-        let new_status = StatusLists::from(self.repo_path());
-
-        if self.status != new_status {
-            self.status = new_status;
-        }
-    }
-
     fn update_diff(&mut self) {
         self.count += 1;
 
-        let new_diff = match self.index.selection() {
+        let (idx, is_stage) = if self.index.focused() {
+            (&self.index, true)
+        } else {
+            (&self.index_wd, false)
+        };
+
+        let new_diff = match idx.selection() {
             Some(i) => git_utils::get_diff(
                 self.repo_path(),
                 Path::new(i.path.as_str()),
+                is_stage,
             ),
-
             None => Diff::default(),
         };
 
@@ -96,26 +103,33 @@ impl App {
     }
 
     pub fn get_status_items(&self) -> Vec<String> {
-        self.status.wt_items_pathlist()
+        self.index_wd.get_items()
     }
 
     pub fn get_index_items(&self) -> Vec<String> {
-        self.status.index_items_pathlist()
+        self.index.get_items()
     }
 
-    pub fn set_status_select(&mut self, index: i32) {
-        self.index.set_selection(index);
+    pub fn set_selection(&mut self, index: i32, stage: bool) {
+        self.index.focus(stage);
+        self.index_wd.focus(!stage);
+        let idx = if stage {
+            &mut self.index
+        } else {
+            &mut self.index_wd
+        };
+        idx.set_selection(index);
         self.update_diff();
     }
 
     pub fn update(&mut self) {
-        self.fetch_status();
         self.index.update(self.repo_path());
+        self.index_wd.update(self.repo_path());
         self.update_diff();
     }
 
     pub fn commit(&self, msg: String) -> bool {
-        if self.status.index_items.is_empty() {
+        if git_utils::index_empty(self.repo_path()) {
             return false;
         } else {
             git_utils::commit(self.repo_path(), msg);
@@ -124,9 +138,11 @@ impl App {
     }
 
     pub fn index_add(&mut self) {
-        if let Some(i) = self.index.selection() {
-            if git_utils::index_add(self.repo_path(), i.path.clone()) {
-                self.update();
+        if self.index_wd.focused() {
+            if let Some(i) = self.index_wd.selection() {
+                if git_utils::index_add(self.repo_path(), i.path.clone()) {
+                    self.update();
+                }
             }
         }
     }

@@ -39,9 +39,10 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kGetStatusItemsConstMeta;
 
-  Future<void> setStatusSelect({required int index, dynamic hint});
+  Future<void> setSelection(
+      {required int index, required bool stage, dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kSetStatusSelectConstMeta;
+  FlutterRustBridgeTaskConstMeta get kSetSelectionConstMeta;
 
   Future<List<String>> getIndexItems({dynamic hint});
 
@@ -202,22 +203,24 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  Future<void> setStatusSelect({required int index, dynamic hint}) {
+  Future<void> setSelection(
+      {required int index, required bool stage, dynamic hint}) {
     var arg0 = api2wire_i32(index);
+    var arg1 = stage;
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_set_status_select(port_, arg0),
+      callFfi: (port_) => _platform.inner.wire_set_selection(port_, arg0, arg1),
       parseSuccessData: _wire2api_unit,
       parseErrorData: null,
-      constMeta: kSetStatusSelectConstMeta,
-      argValues: [index],
+      constMeta: kSetSelectionConstMeta,
+      argValues: [index, stage],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kSetStatusSelectConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kSetSelectionConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "set_status_select",
-        argNames: ["index"],
+        debugName: "set_selection",
+        argNames: ["index", "stage"],
       );
 
   Future<List<String>> getIndexItems({dynamic hint}) {
@@ -325,6 +328,11 @@ class NativeImpl implements Native {
 }
 
 // Section: api2wire
+
+@protected
+bool api2wire_bool(bool raw) {
+  return raw;
+}
 
 @protected
 int api2wire_i32(int raw) {
@@ -554,21 +562,24 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_get_status_items =
       _wire_get_status_itemsPtr.asFunction<void Function(int)>();
 
-  void wire_set_status_select(
+  void wire_set_selection(
     int port_,
     int index,
+    bool stage,
   ) {
-    return _wire_set_status_select(
+    return _wire_set_selection(
       port_,
       index,
+      stage,
     );
   }
 
-  late final _wire_set_status_selectPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64, ffi.Int32)>>(
-          'wire_set_status_select');
-  late final _wire_set_status_select =
-      _wire_set_status_selectPtr.asFunction<void Function(int, int)>();
+  late final _wire_set_selectionPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Int64, ffi.Int32, ffi.Bool)>>(
+      'wire_set_selection');
+  late final _wire_set_selection =
+      _wire_set_selectionPtr.asFunction<void Function(int, int, bool)>();
 
   void wire_get_index_items(
     int port_,

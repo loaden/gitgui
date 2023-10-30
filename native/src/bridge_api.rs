@@ -98,20 +98,22 @@ fn wire_get_status_items_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(get_status_items()),
     )
 }
-fn wire_set_status_select_impl(
+fn wire_set_selection_impl(
     port_: MessagePort,
     index: impl Wire2Api<i32> + UnwindSafe,
+    stage: impl Wire2Api<bool> + UnwindSafe,
 ) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "set_status_select",
+            debug_name: "set_selection",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
         move || {
             let api_index = index.wire2api();
+            let api_stage = stage.wire2api();
             move |task_callback| {
-                Result::<_, ()>::Ok(set_status_select(api_index))
+                Result::<_, ()>::Ok(set_selection(api_index, api_stage))
             }
         },
     )
@@ -194,6 +196,11 @@ where
     }
 }
 
+impl Wire2Api<bool> for bool {
+    fn wire2api(self) -> bool {
+        self
+    }
+}
 impl Wire2Api<i32> for i32 {
     fn wire2api(self) -> i32 {
         self
@@ -288,8 +295,8 @@ mod io {
     }
 
     #[no_mangle]
-    pub extern "C" fn wire_set_status_select(port_: i64, index: i32) {
-        wire_set_status_select_impl(port_, index)
+    pub extern "C" fn wire_set_selection(port_: i64, index: i32, stage: bool) {
+        wire_set_selection_impl(port_, index, stage)
     }
 
     #[no_mangle]

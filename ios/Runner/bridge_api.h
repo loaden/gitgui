@@ -40,7 +40,7 @@ void wire_get_diff(int64_t port_);
 
 void wire_get_status_items(int64_t port_);
 
-void wire_set_status_select(int64_t port_, int32_t index);
+void wire_set_selection(int64_t port_, int32_t index, bool stage);
 
 void wire_get_index_items(int64_t port_);
 
@@ -61,7 +61,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_update);
     dummy_var ^= ((int64_t) (void*) wire_get_diff);
     dummy_var ^= ((int64_t) (void*) wire_get_status_items);
-    dummy_var ^= ((int64_t) (void*) wire_set_status_select);
+    dummy_var ^= ((int64_t) (void*) wire_set_selection);
     dummy_var ^= ((int64_t) (void*) wire_get_index_items);
     dummy_var ^= ((int64_t) (void*) wire_index_add);
     dummy_var ^= ((int64_t) (void*) wire_commit);

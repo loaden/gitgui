@@ -164,7 +164,7 @@ class _HomeState extends State<Home> {
           onTap: () {
             _statusSelect = index;
             _indexSelect = -1;
-            _rustSetStatusSelect(index);
+            _rustSetSelection(index, false);
           },
           onLongPress: () async {
             await api.indexAdd();
@@ -192,8 +192,7 @@ class _HomeState extends State<Home> {
           onTap: () {
             _indexSelect = index;
             _statusSelect = -1;
-            // _rustSetStatusSelect(index);
-            _rustGetData();
+            _rustSetSelection(index, true);
           },
         );
       }),
@@ -256,8 +255,8 @@ class _HomeState extends State<Home> {
     _rustGetData();
   }
 
-  Future<void> _rustSetStatusSelect(int index) async {
-    await api.setStatusSelect(index: index);
+  Future<void> _rustSetSelection(int index, bool stage) async {
+    await api.setSelection(index: index, stage: stage);
     _rustGetData();
   }
 

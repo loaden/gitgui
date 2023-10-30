@@ -43,9 +43,9 @@ pub fn get_status_items() -> Vec<String> {
     app.get_status_items()
 }
 
-pub fn set_status_select(index: i32) {
+pub fn set_selection(index: i32, stage: bool) {
     let mut app = APP.write().unwrap();
-    app.set_status_select(index);
+    app.set_selection(index, stage);
 }
 
 pub fn get_index_items() -> Vec<String> {
@@ -96,7 +96,7 @@ mod tests {
     #[test]
     fn set_status_select() {
         super::open_default_repo();
-        super::set_status_select(1);
-        super::set_status_select(0);
+        super::set_selection(1);
+        super::set_selection(0);
     }
 }

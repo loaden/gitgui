@@ -45,8 +45,8 @@ pub fn get_status_items() -> Vec<String> {
     base::get_status_items()
 }
 
-pub fn set_status_select(index: i32) {
-    base::set_status_select(index);
+pub fn set_selection(index: i32, stage: bool) {
+    base::set_selection(index, stage);
 }
 
 pub fn get_index_items() -> Vec<String> {
