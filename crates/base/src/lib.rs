@@ -86,4 +86,17 @@ mod tests {
     fn update() {
         super::update();
     }
+
+    #[test]
+    fn get_diff() {
+        super::open_default_repo();
+        super::get_diff();
+    }
+
+    #[test]
+    fn set_status_select() {
+        super::open_default_repo();
+        super::set_status_select(1);
+        super::set_status_select(0);
+    }
 }

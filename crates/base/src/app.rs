@@ -45,7 +45,7 @@ impl App {
 
     pub fn set_repo(&mut self, path: String) {
         self.repo = path;
-        self.fetch_status();
+        self.update();
     }
 
     pub fn repo_path(&self) -> String {
@@ -104,7 +104,7 @@ impl App {
     }
 
     pub fn set_status_select(&mut self, index: i32) {
-        self.index.move_selection(index);
+        self.index.set_selection(index);
         self.update_diff();
     }
 

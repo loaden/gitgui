@@ -36,6 +36,13 @@ impl IndexComponent {
         }
     }
 
+    pub fn set_selection(&mut self, delta: i32) {
+        let items_len = self.items.len();
+        if items_len > 0 && delta < items_len as i32  {
+            self.selection = Some(delta as usize);
+        }
+    }
+
     pub fn move_selection(&mut self, delta: i32) {
         let items_len = self.items.len();
         if items_len > 0 {
