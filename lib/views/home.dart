@@ -167,7 +167,8 @@ class _HomeState extends State<Home> {
             _rustSetSelection(index, false);
           },
           onLongPress: () async {
-            await api.indexAdd();
+            await api.indexUpdate();
+            _rustSetSelection(index, false);
             _rustUpdate();
           },
         );
@@ -193,6 +194,11 @@ class _HomeState extends State<Home> {
             _indexSelect = index;
             _statusSelect = -1;
             _rustSetSelection(index, true);
+          },
+          onLongPress: () async {
+            await api.indexUpdate();
+            _rustSetSelection(index, true);
+            _rustUpdate();
           },
         );
       }),

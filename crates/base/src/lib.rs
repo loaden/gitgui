@@ -53,9 +53,9 @@ pub fn get_index_items() -> Vec<String> {
     app.get_index_items()
 }
 
-pub fn index_add() {
+pub fn index_update() {
     let mut app = APP.write().unwrap();
-    app.index_add();
+    app.index_add_remove();
 }
 
 pub fn commit(msg: String) -> bool {

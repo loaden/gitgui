@@ -53,8 +53,8 @@ pub fn get_index_items() -> Vec<String> {
     base::get_index_items()
 }
 
-pub fn index_add() {
-    base::index_add();
+pub fn index_update() {
+    base::index_update();
 }
 
 pub fn commit(msg: String) -> bool {

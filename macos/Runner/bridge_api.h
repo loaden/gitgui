@@ -44,7 +44,7 @@ void wire_set_selection(int64_t port_, int32_t index, bool stage);
 
 void wire_get_index_items(int64_t port_);
 
-void wire_index_add(int64_t port_);
+void wire_index_update(int64_t port_);
 
 void wire_commit(int64_t port_, struct wire_uint_8_list *msg);
 
@@ -63,7 +63,7 @@ static int64_t dummy_method_to_enforce_bundling(void) {
     dummy_var ^= ((int64_t) (void*) wire_get_status_items);
     dummy_var ^= ((int64_t) (void*) wire_set_selection);
     dummy_var ^= ((int64_t) (void*) wire_get_index_items);
-    dummy_var ^= ((int64_t) (void*) wire_index_add);
+    dummy_var ^= ((int64_t) (void*) wire_index_update);
     dummy_var ^= ((int64_t) (void*) wire_commit);
     dummy_var ^= ((int64_t) (void*) new_uint_8_list_0);
     dummy_var ^= ((int64_t) (void*) free_WireSyncReturn);

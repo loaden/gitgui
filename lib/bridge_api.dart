@@ -48,9 +48,9 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kGetIndexItemsConstMeta;
 
-  Future<void> indexAdd({dynamic hint});
+  Future<void> indexUpdate({dynamic hint});
 
-  FlutterRustBridgeTaskConstMeta get kIndexAddConstMeta;
+  FlutterRustBridgeTaskConstMeta get kIndexUpdateConstMeta;
 
   Future<bool> commit({required String msg, dynamic hint});
 
@@ -240,20 +240,20 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
-  Future<void> indexAdd({dynamic hint}) {
+  Future<void> indexUpdate({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_index_add(port_),
+      callFfi: (port_) => _platform.inner.wire_index_update(port_),
       parseSuccessData: _wire2api_unit,
       parseErrorData: null,
-      constMeta: kIndexAddConstMeta,
+      constMeta: kIndexUpdateConstMeta,
       argValues: [],
       hint: hint,
     ));
   }
 
-  FlutterRustBridgeTaskConstMeta get kIndexAddConstMeta =>
+  FlutterRustBridgeTaskConstMeta get kIndexUpdateConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
-        debugName: "index_add",
+        debugName: "index_update",
         argNames: [],
       );
 
@@ -595,19 +595,19 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_get_index_items =
       _wire_get_index_itemsPtr.asFunction<void Function(int)>();
 
-  void wire_index_add(
+  void wire_index_update(
     int port_,
   ) {
-    return _wire_index_add(
+    return _wire_index_update(
       port_,
     );
   }
 
-  late final _wire_index_addPtr =
+  late final _wire_index_updatePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
-          'wire_index_add');
-  late final _wire_index_add =
-      _wire_index_addPtr.asFunction<void Function(int)>();
+          'wire_index_update');
+  late final _wire_index_update =
+      _wire_index_updatePtr.asFunction<void Function(int)>();
 
   void wire_commit(
     int port_,

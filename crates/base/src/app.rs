@@ -137,10 +137,20 @@ impl App {
         }
     }
 
-    pub fn index_add(&mut self) {
+    pub fn index_add_remove(&mut self) {
         if self.index_wd.focused() {
             if let Some(i) = self.index_wd.selection() {
-                if git_utils::index_add(self.repo_path(), i.path.clone()) {
+                let path = Path::new(i.path.as_str());
+
+                if git_utils::stage_add(self.repo_path(), path) {
+                    self.update();
+                }
+            }
+        } else {
+            if let Some(i) = self.index.selection() {
+                let path = Path::new(i.path.as_str());
+
+                if git_utils::stage_reset(self.repo_path(), path) {
                     self.update();
                 }
             }

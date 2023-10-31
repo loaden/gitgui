@@ -128,14 +128,14 @@ fn wire_get_index_items_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(get_index_items()),
     )
 }
-fn wire_index_add_impl(port_: MessagePort) {
+fn wire_index_update_impl(port_: MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, (), _>(
         WrapInfo {
-            debug_name: "index_add",
+            debug_name: "index_update",
             port: Some(port_),
             mode: FfiCallMode::Normal,
         },
-        move || move |task_callback| Result::<_, ()>::Ok(index_add()),
+        move || move |task_callback| Result::<_, ()>::Ok(index_update()),
     )
 }
 fn wire_commit_impl(
@@ -305,8 +305,8 @@ mod io {
     }
 
     #[no_mangle]
-    pub extern "C" fn wire_index_add(port_: i64) {
-        wire_index_add_impl(port_)
+    pub extern "C" fn wire_index_update(port_: i64) {
+        wire_index_update_impl(port_)
     }
 
     #[no_mangle]
