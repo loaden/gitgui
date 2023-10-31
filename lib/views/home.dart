@@ -157,7 +157,14 @@ class _HomeState extends State<Home> {
           title: Text(item),
           dense: true,
           trailing: _statusSelect == index
-              ? const Icon(Icons.keyboard_arrow_right)
+              ? IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () async {
+                    await api.indexUpdate();
+                    _statusSelect = 0;
+                    _rustUpdate();
+                  },
+                )
               : null,
           selected: _statusSelect == index,
           contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -165,11 +172,6 @@ class _HomeState extends State<Home> {
             _statusSelect = index;
             _indexSelect = -1;
             _rustSetSelection(index, false);
-          },
-          onLongPress: () async {
-            await api.indexUpdate();
-            _rustSetSelection(index, false);
-            _rustUpdate();
           },
         );
       }),
@@ -186,7 +188,14 @@ class _HomeState extends State<Home> {
           title: Text(item),
           dense: true,
           trailing: _indexSelect == index
-              ? const Icon(Icons.keyboard_arrow_right_outlined)
+              ? IconButton(
+                  icon: const Icon(Icons.undo),
+                  onPressed: () async {
+                    await api.indexUpdate();
+                    _indexSelect = 0;
+                    _rustUpdate();
+                  },
+                )
               : null,
           selected: _indexSelect == index,
           contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -194,11 +203,6 @@ class _HomeState extends State<Home> {
             _indexSelect = index;
             _statusSelect = -1;
             _rustSetSelection(index, true);
-          },
-          onLongPress: () async {
-            await api.indexUpdate();
-            _rustSetSelection(index, true);
-            _rustUpdate();
           },
         );
       }),
