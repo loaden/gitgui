@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gitgui/route/route.dart' as route;
+import 'package:gitgui/route.dart' as route;
 
 void main() {
   runApp(const App());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gitgui/route/route.dart' as route;
+import 'package:gitgui/route.dart' as route;
 
 class Config extends StatelessWidget {
   const Config({super.key});
@@ -8,15 +8,23 @@ class Config extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Config Page')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            Navigator.of(context).pop();
-            var r = await Navigator.of(context).pushNamed(route.aboutPage);
-            print(r);
-          },
-          child: const Text("Goto About page"),
-        ),
+      body: Row(
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              var r = await route.go(context, route.aboutPage);
+              print(r);
+            },
+            child: const Text("Goto About page"),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          ElevatedButton(
+            onPressed: () => route.pop(context),
+            child: const Text("Go Back"),
+          ),
+        ],
       ),
     );
   }

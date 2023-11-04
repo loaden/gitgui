@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:gitgui/bridge_api.dart';
-import 'package:gitgui/route/route.dart' as route;
+import 'package:gitgui/route.dart' as route;
 import 'package:gitgui/native.dart';
 import 'package:gitgui/widget/box_container.dart';
 
@@ -234,10 +234,10 @@ class _HomeState extends State<Home> {
       children: [
         ElevatedButton(
           onPressed: () async {
-            var r = await Navigator.of(context).pushNamed(route.aboutPage);
-            print(r);
+            var r = await route.go(context, route.configPage);
+            print("home pop: + $r");
           },
-          child: const Text('About'),
+          child: const Text('Config'),
         ),
       ],
     );
