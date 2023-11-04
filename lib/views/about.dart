@@ -12,7 +12,7 @@ class About extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           child: const Text('Go Back'),
-          onPressed: () => route.pop(context, info: 'pop from about page'),
+          onPressed: () => route.pop(context, 'pop from about page'),
         ),
       ),
     );

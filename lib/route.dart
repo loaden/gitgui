@@ -34,6 +34,6 @@ Future<dynamic> go(BuildContext context, String page) {
   return Navigator.of(context).pushNamed(page);
 }
 
-void pop(BuildContext context, {String? info}) {
+void pop(BuildContext context, [String? info]) {
   return Navigator.of(context).pop(info);
 }
