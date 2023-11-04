@@ -14,11 +14,16 @@ Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
     case aboutPage:
       return MaterialPageRoute(
-          builder: (context) => const About(name: 'Lucky'));
+        builder: (context) => const About(name: 'Lucky'),
+      );
     case homePage:
-      return MaterialPageRoute(builder: (context) => const Home());
+      return MaterialPageRoute(
+        builder: (context) => const Home(),
+      );
     case configPage:
-      return MaterialPageRoute(builder: (context) => const Config());
+      return MaterialPageRoute(
+        builder: (context) => const Config(),
+      );
     default:
       throw ('The route does not exist');
   }
