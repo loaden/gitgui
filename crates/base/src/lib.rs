@@ -96,7 +96,7 @@ mod tests {
     #[test]
     fn set_status_select() {
         super::open_default_repo();
-        super::set_selection(1);
-        super::set_selection(0);
+        super::set_selection(1, false);
+        super::set_selection(0, false);
     }
 }
