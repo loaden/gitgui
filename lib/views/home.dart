@@ -71,6 +71,13 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void dispose() {
+    _commitMsgController.dispose();
+    _diffController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Gitgui')),
