@@ -56,4 +56,4 @@ dart:
   dart run build_runner build
 
 upgrade:
-	flutter pub upgrade
+	flutter pub upgrade --major-versions
