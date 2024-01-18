@@ -55,5 +55,12 @@ get:
 dart:
   dart run build_runner build
 
+outdated:
+  flutter pub outdated
+
 upgrade:
-	flutter pub upgrade --major-versions
+  flutter pub upgrade --major-versions
+
+update:
+  flutter pub upgrade
+  cargo update
